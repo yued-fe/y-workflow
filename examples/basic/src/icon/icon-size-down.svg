@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="18px" height="15px" viewBox="0 0 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="阅读页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="阅读页12" transform="translate(-20.000000, -1403.000000)" fill="#FFFFFF">
+            <g id="Group-2" transform="translate(0.000000, 1378.000000)">
+                <g id="字体">
+                    <g id="Group-10" transform="translate(20.000000, 20.000000)">
+                        <g id="Group-5">
+                            <g id="24x24readtoolbiggerfont">
+                                <g id="icon-设置" transform="translate(0.000000, 5.000000)">
+                                    <g id="Group-3">
+                                        <path d="M5.97087096,0.668168198 L5.02912904,0.668168198 L10.029129,14.6681682 C10.1220058,14.928223 10.4081134,15.0637477 10.6681682,14.970871 C10.928223,14.8779942 11.0637477,14.5918866 10.970871,14.3318318 L5.97087096,0.331831802 C5.81285581,-0.110610601 5.18714419,-0.110610601 5.02912904,0.331831802 L0.0291290442,14.3318318 C-0.0637476872,14.5918866 0.0717769535,14.8779942 0.331831802,14.970871 C0.59188665,15.0637477 0.877994224,14.928223 0.970870956,14.6681682 L5.97087096,0.668168198 Z" id="Path-59"></path>
+                                        <polygon id="Path-11" points="9 10 9 9 2 9 2 10"></polygon>
+                                        <path d="M17.5,9 C17.7761424,9 18,8.77614237 18,8.5 C18,8.22385763 17.7761424,8 17.5,8 L11.5,8 C11.2238576,8 11,8.22385763 11,8.5 C11,8.77614237 11.2238576,9 11.5,9 L17.5,9 Z" id="Path-11"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

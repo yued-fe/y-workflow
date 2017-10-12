@@ -1,0 +1,47 @@
+{
+  "name": "y-workflow",
+  "version": "0.0.3",
+  "author": "yued-fe",
+  "license": "MIT",
+  "description": "",
+  "main": "./lib/y-workflow.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yued-fe/y-workflow.git"
+  },
+  "bin": {
+    "y-workflow": "./bin/y-workflow.js"
+  },
+  "scripts": {
+    "test:clean": "gulp --gulpfile ./test/clean/gulpfile.js",
+    "test:cmdify": "gulp --gulpfile ./test/cmdify/gulpfile.js",
+    "test:copy": "gulp --gulpfile ./test/copy/gulpfile.js",
+    "test:fontMin": "gulp --gulpfile ./test/fontMin/gulpfile.js",
+    "test:imgMin": "gulp --gulpfile ./test/imgMin/gulpfile.js",
+    "test:imgSprite": "gulp --gulpfile ./test/imgSprite/gulpfile.js",
+    "test:nunjucks": "gulp --gulpfile ./test/nunjucks/gulpfile.js",
+    "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js && http-server ./test/rev/dest -o",
+    "test:sass": "gulp --gulpfile ./test/sass/gulpfile.js",
+    "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
+    "basic": "gulp --gulpfile ./examples/basic/gulpfile.js & http-server ./examples/basic/.cache -o"
+  },
+  "files": [
+    "lib/",
+    "bin/"
+  ],
+  "dependencies": {
+    "colors": "^1.1.2"
+  },
+  "devDependencies": {
+    "commander": "^2.11.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-changed": "^3.1.0",
+    "gulp-if": "^2.0.2",
+    "gulp-newer": "^1.3.0",
+    "gulp-plumber": "^1.1.0",
+    "http-server": "^0.10.0",
+    "inquirer": "^3.2.2",
+    "run-sequence": "^2.2.0"
+  }
+}

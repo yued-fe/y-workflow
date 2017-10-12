@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic</title>
+
+  <link rel="stylesheet" href="__uri(/css/utils.css)">
+  <link rel="stylesheet" href="__uri(/css/index.css)">
+  <link rel="stylesheet" href="__uri(/font/FZZCYSK/FZZCYSK.css)">
+  <link rel="stylesheet" href="__uri(/icon/img-sprite.css)">
+</head>
+<body>
+  <script src="__uri(/icon/svg-sprite).js"></script>
+
+  <h1 class="yellow">Basic Demo</h1>
+
+  <h2 class="red">字体压缩（只有四个字）</h2>
+
+  <div class="icon-home"></div>
+  <div class="icon-rank"></div>
+  <div class="icon-sort"></div>
+
+  <svg class="icon"><use xlink:href="#icon-arrow-l"></use></svg>
+  <svg class="icon"><use xlink:href="#icon-arrow-r"></use></svg>
+  <svg class="icon"><use xlink:href="#icon-size-down"></use></svg>
+  <svg class="icon"><use xlink:href="#icon-size-up"></use></svg>
+
+  <div class="bg1"></div>
+  <div class="bg2"></div>
+  <div class="bg3"></div>
+  <img src="__uri(/img/bg-4.jpg)">
+
+  <script src="//qidian.gtimg.com//lbf/2.0.0/LBF.js?max_age=31536000"></script>
+  <script>
+    // 兼容 amd 模块
+    define.amd = define.cmd;
+
+    // LBF 配置
+    LBF.config({
+      paths: {
+        site: '__uri(/)'.slice(0, -1),
+      },
+    });
+
+    LBF.use(['lib.Zepto', '__uri(/js/index.js)'], function ($, page) {
+      page();
+    });
+  </script>
+</body>
+</html>
