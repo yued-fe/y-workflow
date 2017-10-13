@@ -1,8 +1,18 @@
+function getJsModuleAlias(allFiles, filterReg, prefix) {
+  const alias = {};
 
+  Object.keys(allFiles).forEach((name) => {
+    if (filterReg.test(name)) {
+      alias[prefix + name] = prefix + allFiles[name];
+    }
+  });
+
+  return JSON.stringify(alias);
+}
 
 module.exports = {
   dev: ['clean:cache', ['fontMin:FZZCYSK:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch']],
-  build: [['clean:cache', 'clean:dest'], ['fontMin:FZZCYSK', 'imgMin', 'imgSprite', 'svgSprite', 'css', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'rev:html'],
+  build: [['clean:cache', 'clean:dest'], ['fontMin:FZZCYSK', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'rev:html'],
 
   tasks: [
     // clean
@@ -25,7 +35,7 @@ module.exports = {
       dest: './.cache/static/font/FZZCYSK',
       watch: true,
       textFile: './src/font/FZZCYSK/words.txt',
-      urifyBase: './.cache',
+      urify: './.cache',
     },
 
     // 图片
@@ -44,7 +54,7 @@ module.exports = {
       src: './src/icon/**/*.png',
       dest: './.cache/static/icon',
       watch: true,
-      urifyBase: './.cache',
+      urify: './.cache',
     },
     {
       lib: 'svgSprite',
@@ -52,7 +62,6 @@ module.exports = {
       src: './src/icon/**/*.svg',
       dest: './.cache/static/icon',
       watch: true,
-      urifyBase: './.cache',
     },
 
     // css
@@ -62,7 +71,10 @@ module.exports = {
       src: './src/css/**/*.scss',
       dest: './.cache/static/css',
       watch: true,
-      urifyBase: './.cache',
+      urify: {
+        root: './.cache',
+        absBase: './.cache/static',
+      },
     },
 
     // js
@@ -73,8 +85,10 @@ module.exports = {
       dest: './.cache/static/js',
       watch: true,
       cmdify: 'site/js',
-      urifyBase: './.cache/static',
-      urifyOptions: 'site',
+      urify: {
+        root: './.cache/static',
+        replace: d => `site${d}`,
+      },
     },
 
     // html
@@ -84,8 +98,25 @@ module.exports = {
       src: './src/views/**/*.html',
       dest: './.cache/server/views',
       watch: true,
-      urifyBase: './.cache/server/views',
-      urifyOptions: d => d.slice(-3) === '.js' ? `site${d}` : `/static${d}`,
+      urify: [
+        {
+          root: './.cache',
+          absBase: './.cache/static',
+        },
+        {
+          keyword: /(__uri__)/,
+          replace: () => 'static',
+        },
+        {
+          keyword: /(__cmdify__)/,
+          replace: () => 'site',
+        },
+        {
+          root: './.cache/static',
+          keyword: '__cmdify',
+          replace: d => `site${d}`,
+        }
+      ],
     },
 
     // rev
@@ -102,18 +133,15 @@ module.exports = {
       src: './.cache/static/**/*.css',
       dest: './dest/static',
       manifest: './dest/rev-manifest.json',
-      revReplace: true,
-      // urifyBase: './dest',
+      revReplace: {},
     },
     {
       lib: 'rev',
       taskName: 'rev:js',
-      src: './.cache/static/js/**/*.js',
-      dest: './dest/static/js',
+      src: './.cache/static/**/*.js',
+      dest: './dest/static',
       manifest: './dest/rev-manifest.json',
-      revReplace: true,
-      // urifyBase: './dest/static',
-      // urifyOptions: 'static',
+      revReplace: {},
     },
     {
       lib: 'rev',
@@ -122,9 +150,21 @@ module.exports = {
       dest: './dest/server/views',
       manifest: './dest/rev-manifest.json',
       rev: false,
-      revReplace: true,
-      // urifyBase: './dest/server/views',
-      // urifyOptions: '/static',
+      revReplace: {
+        modifyUnreved: d => d.startsWith('js/') ? '__not_replace__' : d,
+        modifyReved: d => d.startsWith('js/') ? '__not_replace__' : d,
+      },
+      urify: {
+        keyword: /(__alias__)/,
+        replace: () => getJsModuleAlias(require('./dest/rev-manifest.json'), /^js\//, 'site/'),
+      },
+    },
+    {
+      lib: 'copy',
+      taskName: 'copy:map',
+      src: './.cache/static/**/*.map',
+      dest: './dest/static',
+      globOptions: { dot: true },
     },
   ],
 };

@@ -1,0 +1,6 @@
+
+.bg {
+  background: url('__uri(../img/bg.png)');
+  background: url('__uri(/img/bg.png)');
+  background: url('/static/img/bg.png');
+}

@@ -5,16 +5,16 @@ require('../../lib/clean.js')({
   src: './dest',
 });
 
-require('../../lib/nunjucks.js')({
-  src: './src/**/*.html',
-  dest: './dest',
+require('../../lib/urify.js')({
+  src: './src/**/*',
+  dest: './dest/static',
   watch: true,
-  urify:  {
+  urify: {
     root: './dest',
     absBase: './dest/static',
   },
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['nunjucks', 'nunjucks:watch']);
+  runSequence(['urify', 'urify:watch']);
 });

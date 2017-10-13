@@ -9,7 +9,7 @@ require('../../lib/imgSprite.js')({
   src: './src/*.png',
   dest: './dest/icon',
   watch: true,
-  urifyBase: './dest',
+  urify: './dest',
 });
 
 gulp.task('default', ['clean'], () => {

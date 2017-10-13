@@ -19,8 +19,11 @@ createRevTask({
   src: './src/**/*.css',
   dest: './dest/static',
   manifest: './dest/rev-manifest.json',
-  revReplace: true,
-  urifyBase: './dest',
+  revReplace: {},
+  urify: {
+    root: './dest',
+    absBase: './dest/static',
+  },
 });
 
 createRevTask({
@@ -28,9 +31,12 @@ createRevTask({
   src: './src/**/*.js',
   dest: './dest/static',
   manifest: './dest/rev-manifest.json',
-  revReplace: true,
-  urifyBase: './dest/static',
-  urifyOptions: 'static',
+  revReplace: {},
+  urify: {
+    root: './dest',
+    absBase: './dest/static',
+    replace: d => d.replace(/^\//, ''),
+  },
 });
 
 createRevTask({
@@ -39,9 +45,11 @@ createRevTask({
   dest: './dest',
   manifest: './dest/rev-manifest.json',
   rev: false,
-  revReplace: true,
-  urifyBase: './dest',
-  urifyOptions: '/static',
+  revReplace: {},
+  urify: {
+    root: './dest',
+    absBase: './dest/static',
+  },
 });
 
 gulp.task('default', ['clean'], () => {

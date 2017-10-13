@@ -23,7 +23,10 @@
     "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js && http-server ./test/rev/dest -o",
     "test:sass": "gulp --gulpfile ./test/sass/gulpfile.js",
     "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
-    "basic": "gulp --gulpfile ./examples/basic/gulpfile.js & http-server ./examples/basic/.cache -o"
+    "test:urify": "gulp --gulpfile ./test/urify/gulpfile.js",
+    "test:plugin:urify": "npm run test:cmdify & npm run test:fontMin & npm run test:imgSprite & npm run test:nunjucks & npm run test:rev & npm run test:sass & npm run test:urify",
+    "basic:dev": "gulp dev --gulpfile ./examples/basic/gulpfile.js & http-server ./examples/basic/.cache -p 8080 --cors & http-server ./examples/basic/.cache/server/views -p 8081 -o",
+    "basic:build": "gulp build --gulpfile ./examples/basic/gulpfile.js && (http-server ./examples/basic/dest -p 8080 --cors & http-server ./examples/basic/dest/server/views -p 8081 -o)"
   },
   "files": [
     "lib/",

@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <title>Basic</title>
 
-  <link rel="stylesheet" href="__uri(/css/utils.css)">
-  <link rel="stylesheet" href="__uri(/css/index.css)">
-  <link rel="stylesheet" href="__uri(/font/FZZCYSK/FZZCYSK.css)">
-  <link rel="stylesheet" href="__uri(/icon/img-sprite.css)">
+  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/css/utils.css)">
+  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/css/index.css)">
+  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/font/FZZCYSK/FZZCYSK.css)">
+  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/icon/img-sprite.css)">
 </head>
 <body>
-  <script src="__uri(/icon/svg-sprite).js"></script>
+  <script src="//127.0.0.1:8080__uri(/icon/svg-sprite.js)"></script>
 
   <h1 class="yellow">Basic Demo</h1>
 
@@ -25,12 +25,13 @@
   <svg class="icon"><use xlink:href="#icon-size-down"></use></svg>
   <svg class="icon"><use xlink:href="#icon-size-up"></use></svg>
 
+  <img src="//127.0.0.1:8080__uri(/img/bg-1.png)">
+
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="bg3"></div>
-  <img src="__uri(/img/bg-4.jpg)">
 
-  <script src="//qidian.gtimg.com//lbf/2.0.0/LBF.js?max_age=31536000"></script>
+  <script src="//qidian.gtimg.com/lbf/2.0.0/LBF.js?max_age=31536000"></script>
   <script>
     // 兼容 amd 模块
     define.amd = define.cmd;
@@ -38,11 +39,12 @@
     // LBF 配置
     LBF.config({
       paths: {
-        site: '__uri(/)'.slice(0, -1),
+        __cmdify__: '//127.0.0.1:8080/__uri__', // __cmdify__ 用于替换成 site, __uri__ 用于替换成 static
       },
+      alias: __alias__,
     });
 
-    LBF.use(['lib.Zepto', '__uri(/js/index.js)'], function ($, page) {
+    LBF.use(['lib.Zepto', '__cmdify(/js/index.js)'], function ($, page) { // __cmdify 用于替换成 site/xxx
       page();
     });
   </script>

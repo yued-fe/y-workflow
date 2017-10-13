@@ -10,7 +10,7 @@ require('../../lib/fontMin.js')({
   dest: './dest/font/FZZCYSK',
   watch: true,
   textFile: './src/FZZCYSK/words.txt',
-  urifyBase: './dest',
+  urify: './dest',
 });
 
 gulp.task('default', ['clean'], () => {

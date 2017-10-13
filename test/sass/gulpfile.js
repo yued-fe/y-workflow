@@ -7,9 +7,12 @@ require('../../lib/clean.js')({
 
 require('../../lib/sass.js')({
   src: './src/**/*.scss',
-  dest: './dest/css',
+  dest: './dest/static/css',
   watch: true,
-  urifyBase: './dest',
+  urify: {
+    root: './dest',
+    absBase: './dest/static',
+  },
 });
 
 gulp.task('default', ['clean'], () => {

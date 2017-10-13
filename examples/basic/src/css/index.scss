@@ -15,19 +15,13 @@ svg.icon {
 }
 
 .bg2 {
-  background: url('__uri(../img/bg-2.png)');
+  background: url('__uri(/img/bg-2.png)');
   height: 132px;
   width: 312px;
 }
 
 .bg3 {
-  background: url('__uri(../img/bg-3.jpg)');
-  height: 132px;
-  width: 312px;
-}
-
-.bg4 {
-  background: url('__uri(../img/bg-4.jpg)');
+  background: url('/static/img/bg-3.jpg');
   height: 132px;
   width: 312px;
 }
