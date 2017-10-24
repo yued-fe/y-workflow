@@ -16,5 +16,5 @@ require('../../lib/urify.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['urify', 'urify:watch']);
+  runSequence(['urify:watch']);
 });

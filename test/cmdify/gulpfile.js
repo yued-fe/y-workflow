@@ -18,5 +18,5 @@ require('../../lib/cmdify.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['cmdify', 'cmdify:watch']);
+  runSequence(['cmdify:watch']);
 });

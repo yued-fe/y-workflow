@@ -13,5 +13,5 @@ require('../../lib/svgSprite.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['svgSprite', 'svgSprite:watch']);
+  runSequence(['svgSprite:watch']);
 });

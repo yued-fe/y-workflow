@@ -16,5 +16,5 @@ require('../../lib/sass.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['sass', 'sass:watch']);
+  runSequence(['sass:watch']);
 });

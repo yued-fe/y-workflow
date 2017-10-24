@@ -13,5 +13,5 @@ require('../../lib/copy.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  setTimeout(() => runSequence(['copy', 'copy:watch']), 1000);
+  setTimeout(() => runSequence(['copy:watch']), 1000);
 });

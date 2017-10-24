@@ -12,5 +12,5 @@ require('../../lib/imgMin.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['imgMin', 'imgMin:watch']);
+  runSequence(['imgMin:watch']);
 });

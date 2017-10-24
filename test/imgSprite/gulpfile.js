@@ -13,5 +13,5 @@ require('../../lib/imgSprite.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['imgSprite', 'imgSprite:watch']);
+  runSequence(['imgSprite:watch']);
 });

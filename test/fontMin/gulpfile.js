@@ -14,5 +14,5 @@ require('../../lib/fontMin.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['fontMin', 'fontMin:watch']);
+  runSequence(['fontMin:watch']);
 });

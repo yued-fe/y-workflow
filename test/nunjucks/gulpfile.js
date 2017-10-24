@@ -16,5 +16,5 @@ require('../../lib/nunjucks.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['nunjucks', 'nunjucks:watch']);
+  runSequence(['nunjucks:watch']);
 });
