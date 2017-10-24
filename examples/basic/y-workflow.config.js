@@ -11,36 +11,50 @@ function getJsModuleAlias(allFiles, filterReg, prefix) {
 }
 
 module.exports = {
-  dev: ['clean:cache', ['fontMin:FZZCYSK:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch']],
+  dev: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch']],
   build: [['clean:cache', 'clean:dest'], ['fontMin:FZZCYSK', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'rev:html'],
 
   tasks: [
     // clean
     {
-      lib: 'clean',
+      $lib: 'clean',
       taskName: 'clean:cache',
       src: './.cache',
     },
     {
-      lib: 'clean',
+      $lib: 'clean',
       taskName: 'clean:dest',
       src: './dest',
     },
 
     // 字体
+    // {
+    //   $lib: 'fontMin',
+    //   taskName: 'fontMin:FZZCYSK',
+    //   src: './src/font/FZZCYSK/*.ttf',
+    //   dest: './.cache/static/font/FZZCYSK',
+    //   watch: true,
+    //   textFile: './src/font/FZZCYSK/words.txt',
+    //   urify: './.cache',
+    // },
     {
-      lib: 'fontMin',
-      taskName: 'fontMin:FZZCYSK',
-      src: './src/font/FZZCYSK/*.ttf',
-      dest: './.cache/static/font/FZZCYSK',
+      $lib: 'multiple',
+      taskName: 'fontMin',
+      srcBase: './src/font',
+      srcDirs: './src/font/*/',
+      srcFiles: '*.ttf',
+      destDir: './.cache/static/font',
       watch: true,
-      textFile: './src/font/FZZCYSK/words.txt',
-      urify: './.cache',
+      lib: 'fontMin',
+      libOptions: (name) => ({
+        textFile: `./src/font/${name}/words.txt`,
+        urify: './.cache',
+      }),
     },
 
     // 图片
     {
-      lib: 'imgMin',
+      $lib: 'imgMin',
       taskName: 'imgMin',
       src: './src/img/**/*',
       dest: './.cache/static/img',
@@ -49,7 +63,7 @@ module.exports = {
 
     // 图标
     {
-      lib: 'imgSprite',
+      $lib: 'imgSprite',
       taskName: 'imgSprite',
       src: './src/icon/**/*.png',
       dest: './.cache/static/icon',
@@ -57,7 +71,7 @@ module.exports = {
       urify: './.cache',
     },
     {
-      lib: 'svgSprite',
+      $lib: 'svgSprite',
       taskName: 'svgSprite',
       src: './src/icon/**/*.svg',
       dest: './.cache/static/icon',
@@ -66,7 +80,7 @@ module.exports = {
 
     // css
     {
-      lib: 'sass',
+      $lib: 'sass',
       taskName: 'css',
       src: './src/css/**/*.scss',
       dest: './.cache/static/css',
@@ -79,7 +93,7 @@ module.exports = {
 
     // js
     {
-      lib: 'cmdify',
+      $lib: 'cmdify',
       taskName: 'js',
       src: './src/js/**/*.js',
       dest: './.cache/static/js',
@@ -93,7 +107,7 @@ module.exports = {
 
     // html
     {
-      lib: 'nunjucks',
+      $lib: 'nunjucks',
       taskName: 'html',
       src: './src/views/**/*.html',
       dest: './.cache/server/views',
@@ -121,14 +135,14 @@ module.exports = {
 
     // rev
     {
-      lib: 'rev',
+      $lib: 'rev',
       taskName: 'rev:assets',
       src: ['./.cache/static/**/*', '!./.cache/static/**/*+(css|js|html|map|json)'],
       dest: './dest/static',
       manifest: './dest/rev-manifest.json',
     },
     {
-      lib: 'rev',
+      $lib: 'rev',
       taskName: 'rev:css',
       src: './.cache/static/**/*.css',
       dest: './dest/static',
@@ -136,7 +150,7 @@ module.exports = {
       revReplace: {},
     },
     {
-      lib: 'rev',
+      $lib: 'rev',
       taskName: 'rev:js',
       src: './.cache/static/**/*.js',
       dest: './dest/static',
@@ -144,7 +158,7 @@ module.exports = {
       revReplace: {},
     },
     {
-      lib: 'rev',
+      $lib: 'rev',
       taskName: 'rev:html',
       src: './.cache/server/views/**/*.html',
       dest: './dest/server/views',
@@ -160,7 +174,7 @@ module.exports = {
       },
     },
     {
-      lib: 'copy',
+      $lib: 'copy',
       taskName: 'copy:map',
       src: './.cache/static/**/*.map',
       dest: './dest/static',

@@ -4,10 +4,10 @@ const runSequence = require('run-sequence');
 const config = require('./y-workflow.config.js');
 
 config.tasks.forEach((options) => {
-  const createTask = require(`../../lib/${options.lib}.js`);
+  const createTask = require(`../../lib/${options.$lib}.js`);
 
   options = Object.assign({}, options);
-  delete options.lib;
+  delete options.$lib;
 
   createTask(options);
 });
