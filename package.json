@@ -19,6 +19,7 @@
     "test:fontMin": "gulp --gulpfile ./test/fontMin/gulpfile.js",
     "test:imgMin": "gulp --gulpfile ./test/imgMin/gulpfile.js",
     "test:imgSprite": "gulp --gulpfile ./test/imgSprite/gulpfile.js",
+    "test:multiple": "gulp --gulpfile ./test/multiple/gulpfile.js",
     "test:nunjucks": "gulp --gulpfile ./test/nunjucks/gulpfile.js",
     "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js && http-server ./test/rev/dest -o",
     "test:sass": "gulp --gulpfile ./test/sass/gulpfile.js",
