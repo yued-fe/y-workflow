@@ -38,14 +38,11 @@ createRevTask({
   },
 });
 
-createRevTask({
-  taskName: 'rev:html',
+require('../../lib/revReplace.js')({
+  taskName: 'revReplace:html',
   src: './src/**/*.html',
   dest: './dest',
   manifest: './dest/rev-manifest.json',
-  rev: false,
-  revReplace: {},
-  urify: d => `/static${d}`,
 });
 
 require('../../lib/yServer.js')({
@@ -60,5 +57,5 @@ require('../../lib/yServer.js')({
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence('rev:assets', 'rev:css', 'rev:js', 'rev:html', 'yServer');
+  runSequence('rev:assets', 'rev:css', 'rev:js', 'revReplace:html', 'yServer');
 });
