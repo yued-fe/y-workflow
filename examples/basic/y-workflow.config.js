@@ -12,7 +12,7 @@ function getJsModuleAlias(allFiles, filterReg, prefix) {
 
 module.exports = {
   dev: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch']],
-  build: [['clean:cache', 'clean:dest'], ['fontMin:FZZCYSK', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'rev:html'],
+  build: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'rev:html'],
 
   tasks: [
     // clean
@@ -86,8 +86,8 @@ module.exports = {
       dest: './.cache/static/css',
       watch: true,
       urify: {
-        root: './.cache',
-        absBase: './.cache/static',
+        base: './.cache/static',
+        replace: d => `/static${d}`,
       },
     },
 
@@ -100,7 +100,7 @@ module.exports = {
       watch: true,
       cmdify: 'site/js',
       urify: {
-        root: './.cache/static',
+        base: './.cache/static',
         replace: d => `site${d}`,
       },
     },
@@ -114,22 +114,21 @@ module.exports = {
       watch: true,
       urify: [
         {
-          root: './.cache',
-          absBase: './.cache/static',
+          keyword: '__uri',
+          replace: d => `/static${d}`,
         },
         {
           keyword: /(__uri__)/,
           replace: () => 'static',
         },
         {
+          keyword: '__cmdify',
+          replace: d => `site${d}`,
+        },
+        {
           keyword: /(__cmdify__)/,
           replace: () => 'site',
         },
-        {
-          root: './.cache/static',
-          keyword: '__cmdify',
-          replace: d => `site${d}`,
-        }
       ],
     },
 

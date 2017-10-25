@@ -9,10 +9,7 @@ require('../../lib/nunjucks.js')({
   src: './src/**/*.html',
   dest: './dest',
   watch: true,
-  urify:  {
-    root: './dest',
-    absBase: './dest/static',
-  },
+  urify: d => `/static${d}`,
 });
 
 gulp.task('default', ['clean'], () => {

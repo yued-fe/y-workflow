@@ -10,8 +10,8 @@ require('../../lib/sass.js')({
   dest: './dest/static/css',
   watch: true,
   urify: {
-    root: './dest',
-    absBase: './dest/static',
+    base: './dest/static',
+    replace: d => `/static${d}`,
   },
 });
 

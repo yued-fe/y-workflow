@@ -9,11 +9,10 @@ require('../../lib/cmdify.js')({
   src: './src/js/**/*.js',
   dest: './dest/static/js',
   watch: true,
-  cmdify: 'static/js',
+  cmdify: 'site/js',
   urify: {
-    root: './dest', // __uri(./a.js) => /static/js/a.js
-    absBase: './dest/static', // __uri(/js/b.js) => /static/js/b.js
-    replace: d => d.replace(/^\//, ''), // /static/js/a.js => static/js/a.js
+    base: './dest/static', // ./a.js => /js/a.js
+    replace: d => `site${d}`, // /js/a.js => site/js/a.js
   },
 });
 

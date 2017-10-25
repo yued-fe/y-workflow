@@ -13,6 +13,9 @@ require('../../lib/multiple.js')({
   destDir: './dest/icon',
   watch: true,
   lib: 'imgSprite',
+  libOptions: {
+    urify: './dest'
+  },
 });
 
 require('../../lib/multiple.js')({
