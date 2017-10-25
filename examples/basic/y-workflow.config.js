@@ -107,15 +107,15 @@ module.exports = {
           replace: d => `/static${d}`,
         },
         {
-          keyword: /(__uri__)/,
+          keyword: /(__uri\.base)/,
           replace: () => 'static',
         },
         {
-          keyword: '__cmdify',
+          keyword: '__uri\.cmdify',
           replace: d => `site${d}`,
         },
         {
-          keyword: /(__cmdify__)/,
+          keyword: /(__uri\.cmdify\.base)/,
           replace: () => 'site',
         },
       ],
@@ -153,14 +153,16 @@ module.exports = {
       manifest: './dest/rev-manifest.json',
       rev: false,
       revReplace: {
-        modifyUnreved: d => d.startsWith('js/') ? '__not_replace__' : d,
-        modifyReved: d => d.startsWith('js/') ? '__not_replace__' : d,
+        modifyUnreved: d => d.startsWith('js/') ? '__donot_replace_use_lbf_alias__' : d,
+        // modifyReved: d => d.startsWith('js/') ? '__not_replace__' : d,
       },
       urify: {
-        keyword: /(__alias__)/,
+        keyword: /('__uri\.alias\(\)')/,
         replace: () => getJsModuleAlias(require('./dest/rev-manifest.json'), /^js\//, 'site/'),
       },
     },
+
+    // copy
     {
       $lib: 'copy',
       taskName: 'copy:map',

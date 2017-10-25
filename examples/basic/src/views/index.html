@@ -42,12 +42,12 @@
     // LBF 配置
     LBF.config({
       paths: {
-        __cmdify__: '//127.0.0.1:8080/__uri__', // __cmdify__ 用于替换成 site, __uri__ 用于替换成 static
+        __uri.cmdify.base: '//127.0.0.1:8080/__uri.base', // __cmdify__ 用于替换成 site, __uri__ 用于替换成 static
       },
-      alias: __alias__,
+      alias: '__uri.alias()',
     });
 
-    LBF.use(['lib.Zepto', '__cmdify(/js/index.js)'], function ($, page) { // __cmdify 用于替换成 site/xxx
+    LBF.use(['lib.Zepto', '__uri.cmdify(/js/index.js)'], function ($, page) { // __cmdify 用于替换成 site/xxx
       page();
     });
   </script>
