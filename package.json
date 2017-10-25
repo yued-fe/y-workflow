@@ -21,32 +21,51 @@
     "test:imgSprite": "gulp --gulpfile ./test/imgSprite/gulpfile.js",
     "test:multiple": "gulp --gulpfile ./test/multiple/gulpfile.js",
     "test:nunjucks": "gulp --gulpfile ./test/nunjucks/gulpfile.js",
-    "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js && http-server ./test/rev/dest -o",
+    "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js",
+    "test:revReplace": "gulp --gulpfile ./test/revReplace/gulpfile.js",
     "test:sass": "gulp --gulpfile ./test/sass/gulpfile.js",
+    "test:sequence": "gulp --gulpfile ./test/sequence/gulpfile.js",
     "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
     "test:urify": "gulp --gulpfile ./test/urify/gulpfile.js",
     "test:yServer": "gulp --gulpfile ./test/yServer/gulpfile.js",
-    "test:plugin:urify": "npm run test:cmdify & npm run test:fontMin & npm run test:imgSprite & npm run test:nunjucks & npm run test:rev & npm run test:sass & npm run test:urify",
-    "basic:dev": "gulp dev --gulpfile ./examples/basic/gulpfile.js & http-server ./examples/basic/.cache -p 8080 --cors & http-server ./examples/basic/.cache/server/views -p 8081 -o",
-    "basic:build": "gulp build --gulpfile ./examples/basic/gulpfile.js && (http-server ./examples/basic/dest -p 8080 --cors & http-server ./examples/basic/dest/server/views -p 8081 -o)"
+    "test:plugin:urify": "npm run test:cmdify & npm run test:fontMin & npm run test:imgSprite & npm run test:nunjucks & npm run test:sass & npm run test:urify",
+    "basic:dev": "gulp dev --gulpfile ./examples/basic/gulpfile.js",
+    "basic:build": "gulp build --gulpfile ./examples/basic/gulpfile.js"
   },
   "files": [
     "lib/",
     "bin/"
   ],
   "dependencies": {
-    "colors": "^1.1.2"
-  },
-  "devDependencies": {
-    "commander": "^2.11.0",
+    "colors": "^1.1.2",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^3.1.0",
     "gulp-if": "^2.0.2",
     "gulp-newer": "^1.3.0",
     "gulp-plumber": "^1.1.0",
-    "http-server": "^0.10.0",
-    "inquirer": "^3.2.2",
     "run-sequence": "^2.2.0"
+  },
+  "devDependencies": {
+    "cmd-util": "^0.3.13",
+    "commander": "^2.11.0",
+    "gulp-fontmin": "^0.7.4",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-nunjucks": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-responsive": "^2.8.0",
+    "gulp-rev": "^8.0.0",
+    "gulp-rev-delete-original": "^0.2.3",
+    "gulp-rev-replace": "^0.4.3",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-svgmin": "^1.2.4",
+    "gulp-svgstore": "^6.1.0",
+    "gulp.spritesmith": "^6.5.1",
+    "inquirer": "^3.2.2",
+    "y-server-load-plugins": "0.0.2",
+    "y-server-plugin-ejs": "0.0.2",
+    "y-server-plugin-static": "0.0.2"
   }
 }

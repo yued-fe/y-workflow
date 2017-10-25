@@ -1,20 +1,30 @@
-function getJsModuleAlias(allFiles, filterReg, prefix) {
-  const alias = {};
-
-  Object.keys(allFiles).forEach((name) => {
-    if (filterReg.test(name)) {
-      alias[prefix + name] = prefix + allFiles[name];
-    }
-  });
-
-  return JSON.stringify(alias);
-}
-
 module.exports = {
-  dev: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch']],
-  build: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'rev:html'],
-
   tasks: [
+    {
+      $lib: 'sequence',
+      taskName: 'dev',
+      tasks: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch'], 'yServer:dev'],
+    },
+
+    {
+      $lib: 'sequence',
+      taskName: 'build',
+      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'revReplace', 'yServer:pro'],
+    },
+
+    {
+      $lib: 'yServer',
+      taskName: 'yServer:dev',
+      yServerConfig: './y-server.dev.config.js',
+      hot: true,
+    },
+
+    {
+      $lib: 'yServer',
+      taskName: 'yServer:pro',
+      yServerConfig: './y-server.pro.config.js',
+    },
+
     // clean
     {
       $lib: 'clean',
@@ -44,7 +54,6 @@ module.exports = {
     // 图片
     {
       $lib: 'imgMin',
-      taskName: 'imgMin',
       src: './src/img/**/*',
       dest: './.cache/static/img',
       watch: true,
@@ -53,7 +62,6 @@ module.exports = {
     // 图标
     {
       $lib: 'imgSprite',
-      taskName: 'imgSprite',
       src: './src/icon/**/*.png',
       dest: './.cache/static/icon',
       watch: true,
@@ -61,7 +69,6 @@ module.exports = {
     },
     {
       $lib: 'svgSprite',
-      taskName: 'svgSprite',
       src: './src/icon/**/*.svg',
       dest: './.cache/static/icon',
       watch: true,
@@ -146,20 +153,28 @@ module.exports = {
       revReplace: {},
     },
     {
-      $lib: 'rev',
-      taskName: 'rev:html',
+      $lib: 'revReplace',
       src: './.cache/server/views/**/*.html',
       dest: './dest/server/views',
       manifest: './dest/rev-manifest.json',
-      rev: false,
       revReplace: {
         modifyUnreved: d => d.startsWith('js/') ? '__donot_replace_use_lbf_alias__' : d,
-        // modifyReved: d => d.startsWith('js/') ? '__not_replace__' : d,
       },
-      urify: {
-        keyword: /('__uri\.alias\(\)')/,
-        replace: () => getJsModuleAlias(require('./dest/rev-manifest.json'), /^js\//, 'site/'),
-      },
+      replace: [
+        '/* __lbf_config_alias__ */',
+        (function (manifestPath, filterReg, prefix) {
+          const allFiles = require(manifestPath);
+          const alias = {};
+
+          Object.keys(allFiles).forEach((name) => {
+            if (filterReg.test(name)) {
+              alias[prefix + name] = prefix + allFiles[name];
+            }
+          });
+
+          return JSON.stringify(alias).slice(1, -1);
+        })('./dest/rev-manifest.json', /^js\//, 'site/'),
+      ],
     },
 
     // copy
