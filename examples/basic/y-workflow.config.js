@@ -28,19 +28,8 @@ module.exports = {
     },
 
     // 字体
-    // {
-    //   $lib: 'fontMin',
-    //   taskName: 'fontMin:FZZCYSK',
-    //   src: './src/font/FZZCYSK/*.ttf',
-    //   dest: './.cache/static/font/FZZCYSK',
-    //   watch: true,
-    //   textFile: './src/font/FZZCYSK/words.txt',
-    //   urify: './.cache',
-    // },
     {
       $lib: 'multiple',
-      taskName: 'fontMin',
-      srcBase: './src/font',
       srcDirs: './src/font/*/',
       srcFiles: '*.ttf',
       destDir: './.cache/static/font',
