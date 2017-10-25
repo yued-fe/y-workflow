@@ -48,6 +48,17 @@ createRevTask({
   urify: d => `/static${d}`,
 });
 
+require('../../lib/yServer.js')({
+  yServerConfig: {
+    port: 8080,
+    plugins: [
+      require('y-server-plugin-static')({
+        staticPaths: './dest',
+      }),
+    ],
+  },
+});
+
 gulp.task('default', ['clean'], () => {
-  runSequence('rev:assets', 'rev:css', 'rev:js', 'rev:html');
+  runSequence('rev:assets', 'rev:css', 'rev:js', 'rev:html', 'yServer');
 });
