@@ -18,13 +18,32 @@ module.exports = {
     {
       $lib: 'yServer',
       taskName: 'yServer:dev',
-      yServerConfig: './y-server.dev.config.js',
+      yServerConfig: './y-server.config.js',
       hot: true,
     },
     {
       $lib: 'yServer',
       taskName: 'yServer:pro',
-      yServerConfig: './y-server.pro.config.js',
+      yServerConfig: {
+        port: 8080,
+        plugins: [
+          {
+            $name: 'static',
+            staticPaths: {
+              '/static': './dest/static',
+            },
+          },
+          {
+            $name: 'ejs',
+            viewDir: './dest/server/views',
+          },
+          (app) => {
+            app.get('/', (req, res) => {
+              res.render('index.html');
+            });
+          },
+        ],
+      },
     },
 
     // clean

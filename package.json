@@ -71,8 +71,7 @@
     "gulp-svgmin": "^1.2.4",
     "gulp-svgstore": "^6.1.0",
     "gulp.spritesmith": "^6.5.1",
-    "y-server": "0.0.6",
-    "y-server-load-plugins": "0.0.2",
+    "y-server": "0.0.7",
     "y-server-plugin-ejs": "0.0.2",
     "y-server-plugin-static": "0.0.2"
   }
