@@ -35,7 +35,9 @@
   },
   "files": [
     "lib/",
-    "bin/"
+    "bin/",
+    "gulpfile.js",
+    "index.js"
   ],
   "dependencies": {
     "colors": "^1.1.2",
