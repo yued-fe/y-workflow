@@ -1,24 +1,26 @@
 module.exports = {
   tasks: [
+    // dev
     {
       $lib: 'sequence',
       taskName: 'dev',
       tasks: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch'], 'yServer:dev'],
     },
 
+    // build
     {
       $lib: 'sequence',
       taskName: 'build',
       tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'revReplace', 'yServer:pro'],
     },
 
+    // server
     {
       $lib: 'yServer',
       taskName: 'yServer:dev',
       yServerConfig: './y-server.dev.config.js',
       hot: true,
     },
-
     {
       $lib: 'yServer',
       taskName: 'yServer:pro',
@@ -40,6 +42,7 @@ module.exports = {
     // 字体
     {
       $lib: 'multiple',
+      taskName: 'fontMin',
       srcDirs: './src/font/*/',
       srcFiles: '*.ttf',
       destDir: './.cache/static/font',
