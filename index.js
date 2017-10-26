@@ -1,6 +1,4 @@
-'use strict';
-
-const fork = require('child_process').fork;
+const { fork } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -11,7 +9,11 @@ function yWorkflow(options) {
     options = {};
   }
 
-  const tasks = options.tasks;
+  if (Array.isArray(options)) {
+    options = { tasks: options };
+  }
+
+  const { tasks } = options;
 
   if (Array.isArray(tasks)) {
     tasks.forEach((task) => {
@@ -43,7 +45,7 @@ yWorkflow.run = function (task, options) {
 
     fork(args[0], args.slice(1));
   } else {
-    console.log(`配置文件 '${configFileName}' 未找到`.red);
+    console.log(`配置文件 '${configFileName}' 未找到`.red); // eslint-disable-line no-console
     process.exit(0);
   }
 };

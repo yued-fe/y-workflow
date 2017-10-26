@@ -13,7 +13,7 @@
     "y-workflow": "./bin/y-workflow.js"
   },
   "scripts": {
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' bin/** lib/** --ext .js",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./*.js bin/** lib/** --ext .js",
     "test:clean": "gulp --gulpfile ./test/clean/gulpfile.js",
     "test:cmdify": "gulp --gulpfile ./test/cmdify/gulpfile.js",
     "test:copy": "gulp --gulpfile ./test/copy/gulpfile.js",
@@ -30,7 +30,6 @@
     "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
     "test:urify": "gulp --gulpfile ./test/urify/gulpfile.js",
     "test:yServer": "gulp --gulpfile ./test/yServer/gulpfile.js",
-    "test:plugin:urify": "npm run test:cmdify & npm run test:fontMin & npm run test:imgSprite & npm run test:nunjucks & npm run test:sass & npm run test:urify",
     "basic:dev": "node ./bin/y-workflow.js run dev --config ./examples/basic/y-workflow.config.js",
     "basic:build": "node ./bin/y-workflow.js run build --config ./examples/basic/y-workflow.config.js"
   },
@@ -42,6 +41,7 @@
     "colors": "^1.1.2",
     "commander": "^2.11.0",
     "del": "^3.0.0",
+    "globby": "^6.1.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^3.1.0",
     "gulp-if": "^2.0.2",
@@ -58,9 +58,11 @@
     "eslint-plugin-import": "^2.8.0",
     "gulp-eslint": "^4.0.0",
     "gulp-fontmin": "^0.7.4",
+    "gulp-imagemin": "^3.4.0",
     "gulp-nunjucks": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
+    "gulp-responsive": "^2.8.0",
     "gulp-rev": "^8.0.0",
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-rev-replace": "^0.4.3",

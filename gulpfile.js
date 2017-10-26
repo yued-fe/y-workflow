@@ -1,4 +1,3 @@
-const gulp = require('gulp');
 const gutil = require('gulp-util');
 
 const yWorkflow = require('./index');
