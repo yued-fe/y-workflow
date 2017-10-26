@@ -184,7 +184,11 @@ module.exports = {
       },
       replace: [
         '/* __lbf_config_alias__ */',
-        (function (manifestPath, filterReg, prefix) {
+        () => {
+          const manifestPath = './dest/rev-manifest.json';
+          const filterReg = /^js\//;
+          const prefix = 'site/';
+
           const allFiles = require(manifestPath);
           const alias = {};
 
@@ -195,7 +199,7 @@ module.exports = {
           });
 
           return JSON.stringify(alias).slice(1, -1);
-        })('./dest/rev-manifest.json', /^js\//, 'site/'),
+        },
       ],
     },
 

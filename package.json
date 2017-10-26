@@ -34,8 +34,9 @@
     "basic:build": "node ./bin/y-workflow.js run build --config ./examples/basic/y-workflow.config.js"
   },
   "files": [
-    "lib/",
     "bin/",
+    "lib/",
+    "plugins/",
     "gulpfile.js",
     "index.js"
   ],

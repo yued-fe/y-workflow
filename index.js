@@ -2,6 +2,8 @@ const { fork } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const gutil = require('gulp-util');
+
 const abs = file => path.join(__dirname, file);
 
 function yWorkflow(options) {
@@ -37,7 +39,7 @@ yWorkflow.run = function (task, options) {
   if (fs.existsSync(configFileName)) {
     const fileNames = {
       gulp: path.join(path.dirname(require.resolve('gulp')), 'bin/gulp.js'),
-      gulpfile: abs('gulpfile.js'),
+      gulpfile: __filename,
       cwd: path.dirname(configFileName),
       yWorkflowConfig: configFileName,
     };
@@ -49,5 +51,9 @@ yWorkflow.run = function (task, options) {
     process.exit(0);
   }
 };
+
+if (gutil.env.yWorkflowConfig) {
+  yWorkflow(require(gutil.env.yWorkflowConfig));
+}
 
 exports = module.exports = yWorkflow;
