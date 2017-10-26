@@ -172,7 +172,9 @@ module.exports = {
       src: './.cache/static/**/*.js',
       dest: './dest/static',
       manifest: './dest/rev-manifest.json',
-      revReplace: {},
+      revReplace: {
+        modifyUnreved: d => d.startsWith('js/') ? '__js_loader_alias_instead_rev_replace__' : d,
+      },
     },
     {
       $lib: 'revReplace',
@@ -180,10 +182,10 @@ module.exports = {
       dest: './dest/server/views',
       manifest: './dest/rev-manifest.json',
       revReplace: {
-        modifyUnreved: d => d.startsWith('js/') ? '__donot_replace_use_lbf_alias__' : d,
+        modifyUnreved: d => d.startsWith('js/') ? '__js_loader_alias_instead_rev_replace__' : d,
       },
       replace: [
-        '/* __lbf_config_alias__ */',
+        '/* __js_loader_config_alias__ */',
         () => {
           const manifestPath = './dest/rev-manifest.json';
           const filterReg = /^js\//;
