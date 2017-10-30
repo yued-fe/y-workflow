@@ -46,7 +46,7 @@ yWorkflow.run('dev', {
 
 ### y-workflow.config.js 配置
 
-* `tasks` 任务集合，每一个任务必须有 `$lib` 对应到 [lib](https://github.com/yued-fe/y-workflow/tree/master/lib) 目录下的一个文件，其它部分就是传入的参数
+* `tasks` 任务集合，每一个任务必须有 `$lib` 对应到 [lib](https://github.com/yued-fe/y-workflow/tree/master/lib) 目录下的一个文件，其它部分就是传给对用 lib 的配置
 
 
 ### lib 通用配置
@@ -54,7 +54,7 @@ yWorkflow.run('dev', {
 * `taskName` 任务名称，默认为 `lib` 名字
 * `src` 待处理文件
 * `dest` 处理后存放目录
-* `taskHandler` 任务执行方法
+* `taskHandler` 任务执行方法，原有的逻辑不满足要求的时候覆盖用的
 * `watch` 是否监听，启用监听之后会额外增加 `{taskName}:watch` 任务，会先执行一次 `{taskName}` 任务，然后监听 `{src}` 再执行 `{taskName}` 任务
 
 ### clean lib 配置
@@ -73,7 +73,7 @@ yWorkflow.run('dev', {
 ### eslint lib 配置
 
 * `eslint` 传给 [gulp-eslint](https://github.com/adametry/gulp-eslint) 的配置
-* `eslintFormatter` 传给 [eslint.format](https://github.com/adametry/gulp-eslint#eslintformatformatter-output) 的配置，默认值为 `resolve('eslint-friendly-formatter')`
+* `eslintFormatter` 传给 [eslint.format](https://github.com/adametry/gulp-eslint#eslintformatformatter-output) 的配置，默认值为 `require.resolve('eslint-friendly-formatter')`
 
 
 ### fontMin lib 配置
@@ -141,7 +141,7 @@ yWorkflow.run('dev', {
 
 * `svgmin` 传给 [gulp-svgmin](https://github.com/ben-eb/gulp-svgmin) 配置，默认值为 `{ plugins: [{ removeAttrs: { attrs: '(fill|fill-rule)' } }, { removeTitle: true }] }`
 * `svgstore` 传给 [gulp-svgstore](https://github.com/w0rm/gulp-svgstore) 配置，默认值为 `{ inlineSvg: true }`
-* `spritedFilename` 合并之后的文件名，默认值为 `svg-sprite.js`
+* `spritedFilename` 合并之后的文件名，如果后缀名为`.js`则需要调用 [gulp-svg-jsify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-svg-jsify/index.js) 进行转换，默认值为 `svg-sprite.js`
 
 
 ### urify lib 配置
@@ -153,3 +153,4 @@ yWorkflow.run('dev', {
 
 * `hot` 是否启用 [y-server](https://github.com/yued-fe/y-server) 的热加载模式
 * `yServerConfig` [y-server](https://github.com/yued-fe/y-server) 的配置文件路径，默认当前目录下的 `y-server.config.js` 文件
+
