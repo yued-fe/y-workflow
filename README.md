@@ -1,0 +1,155 @@
+# y-workflow
+
+> 让前端工程更简单
+
+
+## 安装
+
+全局安装
+```bash
+npm install -g y-workflow
+```
+
+局部安装
+```bash
+npm install --save-dev y-workflow
+```
+
+## 使用
+
+命令行用法
+```bash
+y-workflow run [task] [--config other-dir/y-workflow.config.js]
+```
+
+JS用法
+```bash
+const yWorkflow = require('y-workflow');
+
+// 注册 tasks
+yWorkflow({
+  tasks: [],
+});
+
+// 注册 tasks 并运行 task
+yWorkflow.run('dev', {
+  config: 'y-workflow.config.js',
+});
+```
+
+## 配置
+
+### 命令行参数 / run方法第二个参数
+
+* `config` 配置文件路径，默认当前目录下的 `y-workflow.config.js` 文件
+
+
+### y-workflow.config.js 配置
+
+* `tasks` 任务集合，每一个任务必须有 `$lib` 对应到 [lib](https://github.com/yued-fe/y-workflow/tree/master/lib) 目录下的一个文件，其它部分就是传入的参数
+
+
+### lib 通用配置
+
+* `taskName` 任务名称，默认为 `lib` 名字
+* `src` 待处理文件
+* `dest` 处理后存放目录
+* `taskHandler` 任务执行方法
+* `watch` 是否监听，启用监听之后会额外增加 `{taskName}:watch` 任务，会先执行一次 `{taskName}` 任务，然后监听 `{src}` 再执行 `{taskName}` 任务
+
+### clean lib 配置
+
+* `delOptions` 传给 [del](https://github.com/sindresorhus/del) 的配置
+
+### cmdify lib 配置
+
+* `cmdify` 传给 [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的配置
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+
+### copy lib 配置
+
+* `globOptions` 传给 [gulp.src](https://github.com/gulpjs/gulp/blob/master/docs/API.md) 的第二个参数
+
+### eslint lib 配置
+
+* `eslint` 传给 [gulp-eslint](https://github.com/adametry/gulp-eslint) 的配置
+* `eslintFormatter` 传给 [eslint.format](https://github.com/adametry/gulp-eslint#eslintformatformatter-output) 的配置，默认值为 `resolve('eslint-friendly-formatter')`
+
+
+### fontMin lib 配置
+
+* `fontMin` 传给 [gulp-fontmin](https://github.com/ecomfe/gulp-fontmin) 的配置
+* `textFile` 传给 [fontmin.text](https://github.com/ecomfe/gulp-fontmin#api) 文件路径
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，如果传入 string，则会有默认值 `{ base: urify, keyword: 'url', replace: d => 'url("' + d + '")' }`
+
+
+### imgMin lib 配置
+
+* `imagemin` 传给 [gulp-imagemin](https://github.com/sindresorhus/gulp-imagemin) 的配置，默认值为 `[imagemin.gifsicle({ interlaced: true }), imagemin.jpegtran({ progressive: true }), imagemin.optipng({ optimizationLevel: 2 }), imagemin.svgo()]`
+
+
+### imgSprite lib 配置
+
+* `responsive` 传给 [gulp-responsive](https://github.com/mahnunchik/gulp-responsive) 的配置，默认值为 `{'**/*': [{min: true, width: '50%'}, {min: true, rename: { suffix: '@2x' }}]}`
+* `spritesmith` 传给 [gulp.spritesmith](https://github.com/twolfson/gulp.spritesmith) 的配置，默认值为 `{ imgName: 'img-sprite.png', cssName: 'img-sprite.css', padding: 4, retinaSrcFilter: '**/*@2x.png', retinaImgName: 'img-sprite@2x.png' }`
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，如果传入 string，则会有默认值 `{ base: urify, keyword: 'url', replace: d => 'url("' + d + '")' }`
+
+
+### multiple lib 配置
+
+* `srcDirs` 多个任务的 `src` 的目录
+* `srcFiles` `src` 目录下需要处理的文件
+* `srcBase` `src` 基础路径，得到每一个子任务的 `name`，然后得到 `{taskName}({name})` 的子任务名，如果 `srcDirs` 是以 `/*/` 结尾的字符串，则默认值为 `srcDirs` 的前半部分
+* `destDir` 处理后存放目录，每一个子任务补上 `name` 得到最终的 `处理后存放目录`
+* `lib` 实际任务 lib
+* `libOptions` lib 的配置，如果为方法，则会传入 `name` 
+
+
+### nunjucks lib 配置
+
+* `changedDeps` 传给 [gulp-changed-deps](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-changed-deps/index.js) 的配置，默认值为 `{ syntax: 'nunjucks', base: true }`
+* `nunjucks` 传给 [gulp-nunjucks](https://github.com/sindresorhus/gulp-nunjucks) 的配置
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+
+
+### rev lib 配置
+
+* `manifest` [gulp-rev](https://github.com/sindresorhus/gulp-rev) 的 `manifest` 文件路径，默认值为 `dest` 加上 `rev-manifest.json`
+* `revReplace` [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 配置，如果传则表示 `rev` 之前会先进行一次 `revReplace`
+
+
+### revReplace lib 配置
+
+* `manifest` [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 的 `manifest` 文件路径，默认值为 `dest` 加上 `rev-manifest.json`
+* `revReplace` 传给 [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 配置
+* `replace` [gulp-replace](https://github.com/lazd/gulp-replace) 配置，如果传则表示 `revReplace` 之后调用 `replace`
+
+
+### sass lib 配置
+
+* `sass` 传给 [gulp-sass](https://github.com/dlmanning/gulp-sass) 的配置
+* `sourcemaps` [gulp-sourcemaps](https://github.com/gulp-sourcemaps/gulp-sourcemaps) write方法的配置
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+
+
+### sequence lib 配置
+
+* `tasks` [run-sequence]() 的参数
+
+
+### svgSprite lib 配置
+
+* `svgmin` 传给 [gulp-svgmin](https://github.com/ben-eb/gulp-svgmin) 配置，默认值为 `{ plugins: [{ removeAttrs: { attrs: '(fill|fill-rule)' } }, { removeTitle: true }] }`
+* `svgstore` 传给 [gulp-svgstore](https://github.com/w0rm/gulp-svgstore) 配置，默认值为 `{ inlineSvg: true }`
+* `spritedFilename` 合并之后的文件名，默认值为 `svg-sprite.js`
+
+
+### urify lib 配置
+
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+
+
+### yServer lib 配置
+
+* `hot` 是否启用 [y-server](https://github.com/yued-fe/y-server) 的热加载模式
+* `yServerConfig` [y-server](https://github.com/yued-fe/y-server) 的配置文件路径，默认当前目录下的 `y-server.config.js` 文件
