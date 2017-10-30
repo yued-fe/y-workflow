@@ -4,8 +4,6 @@ const path = require('path');
 
 const gutil = require('gulp-util');
 
-const abs = file => path.join(__dirname, file);
-
 function yWorkflow(options) {
   if (!options) {
     options = {};
