@@ -9,6 +9,7 @@ require('../../lib/sass.js')({
   src: './src/**/*.scss',
   dest: './dest/static/css',
   watch: true,
+  sourcemaps: '.map',
   urify: {
     base: './dest/static',
     replace: d => `/static${d}`,
