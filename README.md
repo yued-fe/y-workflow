@@ -63,8 +63,9 @@ yWorkflow.run('dev', {
 
 ### cmdify lib 配置
 
-* `cmdify` 传给 [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的配置
 * `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+* `cmdify` 传给 [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的配置
+* `manifest` [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的 `manifest` 文件路径，默认值为 `dest` 加上 `cmdify-manifest.json`
 
 ### copy lib 配置
 
