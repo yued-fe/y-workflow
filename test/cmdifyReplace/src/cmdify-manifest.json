@@ -1,0 +1,11 @@
+{
+  "site/js/a.js": [],
+  "site/js/b.js": [],
+  "site/js/c.js": [
+    "jQuery"
+  ],
+  "site/js/index.js": [
+    "site/js/a.js",
+    "site/js/c.js"
+  ]
+}

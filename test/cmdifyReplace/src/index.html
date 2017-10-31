@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cmdify Replace</title>
+</head>
+<body>
+  <script src="//qidian.gtimg.com/lbf/2.0.0/LBF.js?max_age=31536000"></script>
+  <script>
+    // 兼容 amd 模块
+    define.amd = define.cmd;
+
+    // LBF 配置
+    LBF.config({
+      paths: {
+        site: '<%= $static %>/static',
+      },
+      alias: {/* __cmd_config_alias__ */},
+    });
+
+    LBF.use(['lib.Zepto', 'site/js/index.js'], function ($, page) {
+      page();
+    });
+  </script>
+</body>
+</html>

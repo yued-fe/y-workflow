@@ -67,6 +67,15 @@ yWorkflow.run('dev', {
 * `cmdify` 传给 [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的配置
 * `manifest` [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 的 `manifest` 文件路径，默认值为 `dest` 加上 `cmdify-manifest.json`
 
+
+### cmdifyReplace lib 配置
+
+* `cmdifyManifest` [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 生成的 `manifest` 文件路径
+* `revManifest` [gulp-rev](https://github.com/sindresorhus/gulp-rev) 生成的 `manifest` 文件路径
+* `aliasPlaceholder` CMD模块别名集合的占位字符串，如 `alias: {/* __cmd_config_alias__ */}` 中的 `/* __cmd_config_alias__ */`
+* `cmdKeyword` CMD规范实现类库关键字
+
+
 ### copy lib 配置
 
 * `globOptions` 传给 [gulp.src](https://github.com/gulpjs/gulp/blob/master/docs/API.md) 的第二个参数
@@ -123,7 +132,6 @@ yWorkflow.run('dev', {
 
 * `manifest` [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 的 `manifest` 文件路径，默认值为 `dest` 加上 `rev-manifest.json`
 * `revReplace` 传给 [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 配置
-* `replace` [gulp-replace](https://github.com/lazd/gulp-replace) 配置，如果传则表示 `revReplace` 之后调用 `replace`
 
 
 ### sass lib 配置
