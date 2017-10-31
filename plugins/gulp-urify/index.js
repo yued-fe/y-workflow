@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 
 const gutil = require('gulp-util');
@@ -51,11 +49,9 @@ module.exports = (options) => {
     options.replace = d => d;
   }
 
-  const REG_URI = options.keyword instanceof RegExp ? options.keyword : new RegExp(options.keyword + '\\(([\'"]?)([^\'")]+)\\1\\)', 'g');
+  const REG_URI = options.keyword instanceof RegExp ? options.keyword : new RegExp(options.keyword + '\\(([\'"]?)([^\'")]+)\\1\\)', 'g'); // eslint-disable-line max-len,prefer-template
 
   return through2.obj(function (file, encoding, callback) {
-    const stream = this;
-
     if (!file) {
       this.emit('error', new gutil.PluginError('gulp-urify', 'files can not be empty'));
       return callback();
@@ -70,19 +66,19 @@ module.exports = (options) => {
       return callback();
     }
 
-    if (Array.isArray(options.extensions) && options.extensions.indexOf(path.extname(file.path)) === -1) {
+    if (Array.isArray(options.extensions) && options.extensions.indexOf(path.extname(file.path)) === -1) { // eslint-disable-line max-len
       this.push(file);
       return callback();
     }
 
     const dirname = path.dirname(file.path);
 
-    const contents = file.contents.toString('utf-8').replace(REG_URI, function () {
-      const matched = [].slice.call(arguments, 1, -2);
+    const contents = file.contents.toString('utf-8').replace(REG_URI, (...args) => {
+      const matched = args.slice(1, -2);
       let uri;
 
-      while ((uri = matched.shift()) !== undefined) {
-        if (!/^[\'"]?$/.test(uri)) {
+      while ((uri = matched.shift()) !== undefined) { // eslint-disable-line no-cond-assign
+        if (!/^['"]?$/.test(uri)) {
           if (uri.charAt(0) !== '/') {
             uri = path.join(dirname, uri).replace(options.base, '');
           }
@@ -90,11 +86,10 @@ module.exports = (options) => {
         }
       }
 
-      stream.emit('error', new gutil.PluginError('gulp-urify', 'no uri matched'));
-      return;
+      this.emit('error', new gutil.PluginError('gulp-urify', 'no uri matched'));
     });
 
-    file.contents = new Buffer(contents);
+    file.contents = Buffer.from(contents);
     this.push(file);
     callback();
   });

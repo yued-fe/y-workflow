@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 
@@ -14,7 +12,7 @@ const REG_NUNJUCKS_DEPS = /{%\s*(?:extends|import)\s*["']([^"']+)["'][^%]*%}/g;
 
 const allGetContentsDeps = {
   // scss文件处理
-  scss: function (contents) {
+  scss: (contents) => {
     contents = contents.replace(REG_SCSS_COMMENTS, ''); // 移除注释
 
     const deps = [];
@@ -28,7 +26,7 @@ const allGetContentsDeps = {
   },
 
   // nunjucks文件处理
-  nunjucks: function (contents) {
+  nunjucks: (contents) => {
     contents = contents.replace(REG_NUNJUCKS_COMMENTS, ''); // 移除注释
 
     const deps = [];
@@ -53,7 +51,7 @@ const allGetContentsDeps = {
 function getLastModified(fileObj) {
   let lastModified = fileObj.File.stat ? fileObj.File.stat.mtime : 0;
 
-  Object.keys(fileObj.deps).forEach(function (depFilePath) {
+  Object.keys(fileObj.deps).forEach((depFilePath) => {
     const depLastModified = getLastModified(fileObj.deps[depFilePath]);
 
     if (lastModified < depLastModified) {
@@ -104,18 +102,18 @@ module.exports = function (dest, options) {
 
     const ext = extname.slice(1).toLowerCase();
 
-    const getContentsDeps = options.getContentsDeps || allGetContentsDeps[options.syntax] || allGetContentsDeps[ext];
+    const getContentsDeps = options.getContentsDeps || allGetContentsDeps[options.syntax] || allGetContentsDeps[ext]; // eslint-disable-line max-len
 
     if (!getContentsDeps) {
       return [];
     }
 
-    const depBase = options.base ? options.base === true ? file.base : path.resolve(options.base) : dirname;
+    const depBase = options.base ? options.base === true ? file.base : path.resolve(options.base) : dirname; // eslint-disable-line max-len,no-nested-ternary
 
     const contents = file.contents.toString('utf-8');
     const fileDeps = [];
 
-    getContentsDeps(contents).forEach(function (dep) {
+    getContentsDeps(contents).forEach((dep) => {
       let depFilePath = path.join(depBase, dep);
 
       if (!path.extname(depFilePath)) { // 补齐后缀
@@ -125,7 +123,7 @@ module.exports = function (dest, options) {
       if (fs.existsSync(depFilePath)) {
         fileDeps.push(depFilePath);
       } else { // 依赖的文件不存在
-        gutil.log('"' + gutil.colors.red(path.relative(options.cwd, file.path)) + '" dependency file "' + gutil.colors.red(dep) + '" does not found');
+        gutil.log('"' + gutil.colors.red(path.relative(options.cwd, file.path)) + '" dependency file "' + gutil.colors.red(dep) + '" does not found'); // eslint-disable-line max-len,prefer-template
       }
     });
 
@@ -153,7 +151,7 @@ module.exports = function (dest, options) {
     fileObj.File = file;
     fileObj.deps = {};
 
-    getFileDeps(file).forEach(function (depFilePath) {
+    getFileDeps(file).forEach((depFilePath) => {
       fileObj.deps[depFilePath] = fileObjs[depFilePath] || (fileObjs[depFilePath] = {});
     });
 
@@ -163,7 +161,7 @@ module.exports = function (dest, options) {
       targetPath = gutil.replaceExtension(targetPath, options.extension);
     }
 
-    fs.stat(targetPath, function (err, targetStat) {
+    fs.stat(targetPath, (err, targetStat) => {
       if (err) {
         fileObj.isNew = true;
       } else {
@@ -176,9 +174,7 @@ module.exports = function (dest, options) {
 
   // 提取需要更新文件
   function flush(callback) {
-    const stream = this;
-
-    Object.keys(fileObjs).forEach(function (filePath) {
+    Object.keys(fileObjs).forEach((filePath) => {
       const fileObj = fileObjs[filePath];
 
       if (!fileObj.File) {
@@ -188,11 +184,11 @@ module.exports = function (dest, options) {
 
       if (fileObj.isNew) {
         if (options.underscore || path.basename(filePath).indexOf('_') !== 0) {
-          stream.push(fileObj.File);
+          this.push(fileObj.File);
           // gutil.log('New File', gutil.colors.green(filePath));
         }
       } else if (getLastModified(fileObj) > fileObj.targetLastModified) {
-        stream.push(fileObj.File);
+        this.push(fileObj.File);
         gutil.log(gutil.colors.red('Changed'), gutil.colors.blue(filePath));
       }
     });

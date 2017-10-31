@@ -1,8 +1,6 @@
-'use strict';
-
 const path = require('path');
 
-const ast = require('cmd-util').ast;
+const { ast } = require('cmd-util');
 const gutil = require('gulp-util');
 const sortKeys = require('sort-keys');
 const through2 = require('through2');
@@ -55,9 +53,10 @@ const plugin = function (options) {
     let astModule;
 
     try {
-      astModule = ast.parseFirst(contents); // { id: 'id', dependencies: ['a'], factory: factoryNode }
+      // astModule = { id: 'id', dependencies: ['a'], factory: factoryNode }
+      astModule = ast.parseFirst(contents);
     } catch (ex) {
-      this.emit('error', new gutil.PluginError('gulp-cmdify', 'parse file "' + gutil.colors.red(file.path) + '" failed'));
+      this.emit('error', new gutil.PluginError('gulp-cmdify', 'parse file "' + gutil.colors.red(file.path) + '" failed')); // eslint-disable-line max-len,prefer-template
       return callback();
     }
 
@@ -68,17 +67,15 @@ const plugin = function (options) {
       if (options.format) {
         astModule.id = moduleId;
         const newAstModule = ast.modify(contents, astModule);
-        contents = new Buffer(newAstModule.print_to_string({ beautify: true }));
-      } else {
-        if (REG_DEFINE_ONLY_FACTORY.test(contents)) {
-          contents = contents.replace(REG_DEFINE_ONLY_FACTORY, `define("${moduleId}",${JSON.stringify(moduleDeps)},$1`);
-        } else if (REG_DEFINE_WITH_DEPS.test(contents)) {
-          contents = contents.replace(REG_DEFINE_WITH_DEPS, `define("${moduleId}",$1`);
-        }
+        contents = Buffer.from(newAstModule.print_to_string({ beautify: true }));
+      } else if (REG_DEFINE_ONLY_FACTORY.test(contents)) {
+        contents = contents.replace(REG_DEFINE_ONLY_FACTORY, `define("${moduleId}",${JSON.stringify(moduleDeps)},$1`);
+      } else if (REG_DEFINE_WITH_DEPS.test(contents)) {
+        contents = contents.replace(REG_DEFINE_WITH_DEPS, `define("${moduleId}",$1`);
       }
       file.cmdModuleId = moduleId;
       file.cmdModuleDeps = moduleDeps;
-      file.contents = new Buffer(contents);
+      file.contents = Buffer.from(contents);
     }
 
     this.push(file);
@@ -107,7 +104,7 @@ plugin.manifest = function (options) {
 
   let manifest = {};
 
-  return through2.obj(function (file, encoding, callback) {
+  return through2.obj((file, encoding, callback) => {
     if (!file || !file.cmdModuleId || !file.cmdModuleDeps) {
       return callback();
     }
@@ -119,27 +116,27 @@ plugin.manifest = function (options) {
       return callback();
     }
 
-    const stream = this;
-
     vinylFile.read(options.path, options)
-      .then(null, function (err) {
+      .then(null, (err) => {
         if (err.code === 'ENOENT') {
           return new gutil.File(options);
         }
         throw err;
-      }).then(function (manifestFile) {
+      }).then((manifestFile) => {
         if (!manifestFile.isNull()) {
           let oldManifest = {};
 
           try {
             oldManifest = JSON.parse(manifestFile.contents.toString());
-          } catch (err) {}
+          } catch (ex) {
+            oldManifest = {};
+          }
 
           manifest = Object.assign(oldManifest, manifest);
         }
 
         manifestFile.contents = Buffer.from(JSON.stringify(sortKeys(manifest), null, '  '));
-        stream.push(manifestFile);
+        this.push(manifestFile);
         callback();
       }).catch(callback);
   });

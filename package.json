@@ -13,7 +13,7 @@
     "y-workflow": "./bin/y-workflow.js"
   },
   "scripts": {
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./*.js bin/** lib/** --ext .js",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./*.js bin/** lib/** plugins/** --ext .js",
     "test:clean": "gulp --gulpfile ./test/clean/gulpfile.js",
     "test:cmdify": "gulp --gulpfile ./test/cmdify/gulpfile.js",
     "test:copy": "gulp --gulpfile ./test/copy/gulpfile.js",

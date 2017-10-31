@@ -1,14 +1,10 @@
-'use strict';
-
 const path = require('path');
 
 const gutil = require('gulp-util');
 const through2 = require('through2');
 
 module.exports = () => {
-  const wrap = (str) => {
-    return '!(function() { document.body.insertAdjacentHTML(\'afterBegin\', \'<div hidden>' + str + '</div>\'); })();'
-  };
+  const wrap = str => `!(function() { document.body.insertAdjacentHTML('afterBegin', '<div hidden>${str}</div>'); })();`;
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
@@ -30,7 +26,7 @@ module.exports = () => {
       return callback();
     }
 
-    file.contents = new Buffer(wrap(file.contents.toString('utf-8')));
+    file.contents = Buffer.from(wrap(file.contents.toString('utf-8')));
     this.push(file);
     callback();
   });
