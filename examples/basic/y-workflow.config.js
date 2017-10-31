@@ -11,7 +11,7 @@ module.exports = {
     {
       $lib: 'sequence',
       taskName: 'build',
-      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'yServer:pro'],
+      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'yServer:pro'],
     },
 
     // server
@@ -192,25 +192,15 @@ module.exports = {
       revReplace: {
         modifyUnreved: d => d.startsWith('js/') ? '__js_loader_alias_instead_rev_replace__' : d,
       },
-      replace: [
-        '/* __js_loader_config_alias__ */',
-        () => {
-          const manifestPath = './dest/rev-manifest.json';
-          const filterReg = /^js\//;
-          const prefix = 'site/';
-
-          const allFiles = require(manifestPath);
-          const alias = {};
-
-          Object.keys(allFiles).forEach((name) => {
-            if (filterReg.test(name)) {
-              alias[prefix + name] = prefix + allFiles[name];
-            }
-          });
-
-          return JSON.stringify(alias).slice(1, -1);
-        },
-      ],
+    },
+    {
+      $lib: 'cmdifyReplace',
+      src: './dest/server/views/**/*.html',
+      dest: './dest/server/views',
+      cmdifyManifest: './.cache/cmdify-manifest.json',
+      revManifest: './dest/rev-manifest.json',
+      aliasPlaceholder: '/* __cmd_loader_config_alias__ */',
+      cmdKeyword: 'LBF',
     },
   ],
 };

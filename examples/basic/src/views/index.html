@@ -44,8 +44,7 @@
       paths: {
         __uri.cmdify(): '<%= $static %>__uri()', // __uri.cmdify.base 用于替换成 site, __uri.base 用于替换成 static
       },
-      alias: {/* __js_loader_config_alias__ */},
-      deps: {/* __js_loader_config_deps__ */}, // @todo 实现 deps 提取，可以结合 cmdify
+      alias: {/* __cmd_loader_config_alias__ */},
     });
 
     LBF.use(['lib.Zepto', '__uri.cmdify(/js/index.js)'], function ($, page) { // __uri.cmdify 用于替换成 site/xxx
