@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <title>Basic</title>
 
-  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/css/utils.css)">
-  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/css/index.css)">
-  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/font/FZZCYSK/FZZCYSK.css)">
-  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/font/KUHEI/KUHEI.css)">
-  <link rel="stylesheet" href="//127.0.0.1:8080__uri(/icon/img-sprite.css)">
+  <link rel="stylesheet" href="<%= $static %>__uri(/css/utils.css)">
+  <link rel="stylesheet" href="<%= $static %>__uri(/css/index.css)">
+  <link rel="stylesheet" href="<%= $static %>__uri(/font/FZZCYSK/FZZCYSK.css)">
+  <link rel="stylesheet" href="<%= $static %>__uri(/font/KUHEI/KUHEI.css)">
+  <link rel="stylesheet" href="<%= $static %>__uri(/icon/img-sprite.css)">
 </head>
 <body>
-  <script src="//127.0.0.1:8080__uri(/icon/svg-sprite.js)"></script>
+  <script src="<%= $static %>__uri(/icon/svg-sprite.js)"></script>
 
   <h1 class="yellow">Basic Demo</h1>
 
@@ -28,7 +28,7 @@
   <svg class="icon"><use xlink:href="#icon-size-down"></use></svg>
   <svg class="icon"><use xlink:href="#icon-size-up"></use></svg>
 
-  <img src="//127.0.0.1:8080__uri(/img/bg-1.png)">
+  <img src="<%= $static %>__uri(/img/bg-1.png)">
 
   <div class="bg1"></div>
   <div class="bg2"></div>
@@ -42,10 +42,10 @@
     // LBF 配置
     LBF.config({
       paths: {
-        __uri.cmdify.base: '//127.0.0.1:8080/__uri.base', // __uri.cmdify.base 用于替换成 site, __uri.base 用于替换成 static
+        __uri.cmdify(): '<%= $static %>__uri()', // __uri.cmdify.base 用于替换成 site, __uri.base 用于替换成 static
       },
-      alias: {/* __lbf_config_alias__ */},
-      deps: {/* __lbf_config_deps__ */}, // @todo 实现 deps 提取，可以结合 cmdify
+      alias: {/* __js_loader_config_alias__ */},
+      deps: {/* __js_loader_config_deps__ */}, // @todo 实现 deps 提取，可以结合 cmdify
     });
 
     LBF.use(['lib.Zepto', '__uri.cmdify(/js/index.js)'], function ($, page) { // __uri.cmdify 用于替换成 site/xxx

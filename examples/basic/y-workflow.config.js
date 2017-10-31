@@ -4,14 +4,14 @@ module.exports = {
     {
       $lib: 'sequence',
       taskName: 'dev',
-      tasks: ['clean:cache', ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:watch', 'js:watch', 'html:watch'], 'yServer:dev'],
+      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'html:watch'], 'yServer:dev'],
     },
 
     // build
     {
       $lib: 'sequence',
       taskName: 'build',
-      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css', 'html'], ['copy:map', 'rev:assets'], 'rev:css', 'rev:js', 'revReplace', 'yServer:pro'],
+      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'yServer:pro'],
     },
 
     // server
@@ -36,6 +36,10 @@ module.exports = {
           {
             $name: 'ejs',
             viewDir: './dest/server/views',
+            renderAdapter: (result) => {
+              result.$static = '//127.0.0.1:8080';
+              return result;
+            },
           },
           (app) => {
             app.get('/', (req, res) => {
@@ -99,10 +103,21 @@ module.exports = {
     // css
     {
       $lib: 'sass',
-      taskName: 'css',
+      taskName: 'css:dev',
       src: './src/css/**/*.scss',
       dest: './.cache/static/css',
       watch: true,
+      sourcemaps: './.map',
+      urify: {
+        base: './.cache/static',
+        replace: d => `/static${d}`,
+      },
+    },
+    {
+      $lib: 'sass',
+      taskName: 'css:build',
+      src: './src/css/**/*.scss',
+      dest: './.cache/static/css',
       urify: {
         base: './.cache/static',
         replace: d => `/static${d}`,
@@ -116,11 +131,12 @@ module.exports = {
       src: './src/js/**/*.js',
       dest: './.cache/static/js',
       watch: true,
-      cmdify: 'site/js',
       urify: {
         base: './.cache/static',
         replace: d => `site${d}`,
       },
+      cmdify: 'site/js',
+      manifest: './.cache/cmdify-manifest.json',
     },
 
     // html
@@ -136,16 +152,8 @@ module.exports = {
           replace: d => `/static${d}`,
         },
         {
-          keyword: /(__uri\.base)/,
-          replace: () => 'static',
-        },
-        {
           keyword: '__uri\.cmdify',
           replace: d => `site${d}`,
-        },
-        {
-          keyword: /(__uri\.cmdify\.base)/,
-          replace: () => 'site',
         },
       ],
     },
@@ -203,15 +211,6 @@ module.exports = {
           return JSON.stringify(alias).slice(1, -1);
         },
       ],
-    },
-
-    // copy
-    {
-      $lib: 'copy',
-      taskName: 'copy:map',
-      src: './.cache/static/**/*.map',
-      dest: './dest/static',
-      globOptions: { dot: true },
     },
   ],
 };

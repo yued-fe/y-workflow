@@ -10,6 +10,10 @@ module.exports = {
     {
       $name: 'ejs',
       viewDir: './.cache/server/views',
+      renderAdapter: (result) => {
+        result.$static = '//127.0.0.1:8080';
+        return result;
+      },
     },
     (app) => {
       app.get('/', (req, res) => {
