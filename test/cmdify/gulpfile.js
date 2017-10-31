@@ -9,11 +9,12 @@ require('../../lib/cmdify.js')({
   src: './src/js/**/*.js',
   dest: './dest/static/js',
   watch: true,
-  cmdify: 'site/js',
   urify: {
     base: './dest/static', // ./a.js => /js/a.js
     replace: d => `site${d}`, // /js/a.js => site/js/a.js
   },
+  cmdify: 'site/js',
+  manifest: './dest/static/cmdify-manifest.json',
 });
 
 gulp.task('default', ['clean'], () => {

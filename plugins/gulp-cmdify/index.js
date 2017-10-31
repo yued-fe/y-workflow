@@ -2,14 +2,23 @@
 
 const path = require('path');
 
-const gutil = require('gulp-util');
-const through2 = require('through2');
 const ast = require('cmd-util').ast;
+const gutil = require('gulp-util');
+const sortKeys = require('sort-keys');
+const through2 = require('through2');
+const vinylFile = require('vinyl-file');
 
 const REG_DEFINE_ONLY_FACTORY = /define\(\s*([^[])/g;
 const REG_DEFINE_WITH_DEPS = /define\(\s*(\[[^\]]*\]\s*,\s*)/g;
 
-module.exports = function (options) {
+/**
+ * cmd transport 插件
+ * @param {Object|String} options 插件配置
+ * @param {String} options.base 模块基础路径
+ * @param {Boolean} options.format 是否格式化
+ * @return {Stream} gulp stream
+ */
+const plugin = function (options) {
   if (!options) {
     options = {};
   }
@@ -20,10 +29,6 @@ module.exports = function (options) {
 
   if (!options.base) {
     options.base = '';
-  }
-
-  if (options.base !== false) {
-    options.simple = true;
   }
 
   return through2.obj(function (file, encoding, callback) {
@@ -57,24 +62,87 @@ module.exports = function (options) {
     }
 
     if (astModule) {
-      const moduleId = astModule.id || path.join(options.base, file.relative).replace(/\\/g, '/'); // 转换 "//" 兼容 windows
+      const moduleId = astModule.id || path.join(options.base, file.relative).replace(/\\/g, '/'); // 转换 "\\" 兼容 windows
+      const moduleDeps = astModule.dependencies;
 
-      if (options.simple) {
-        const moduleDeps = astModule.dependencies;
+      if (options.format) {
+        astModule.id = moduleId;
+        const newAstModule = ast.modify(contents, astModule);
+        contents = new Buffer(newAstModule.print_to_string({ beautify: true }));
+      } else {
         if (REG_DEFINE_ONLY_FACTORY.test(contents)) {
           contents = contents.replace(REG_DEFINE_ONLY_FACTORY, `define("${moduleId}",${JSON.stringify(moduleDeps)},$1`);
         } else if (REG_DEFINE_WITH_DEPS.test(contents)) {
           contents = contents.replace(REG_DEFINE_WITH_DEPS, `define("${moduleId}",$1`);
         }
-      } else {
-        astModule.moduleId = moduleId;
-        const newAstModule = ast.modify(contents, astModule);
-        contents = new Buffer(newAstModule.print_to_string({ beautify: true }));
       }
+      file.cmdModuleId = moduleId;
+      file.cmdModuleDeps = moduleDeps;
       file.contents = new Buffer(contents);
     }
 
     this.push(file);
     callback();
   });
-}
+};
+
+/**
+ * cmd transport 插件生成 manifest 方法
+ * @param {Object|String} options 插件配置
+ * @param {String} options.path 生成文件路径名
+ * @return {Stream} gulp stream
+ */
+plugin.manifest = function (options) {
+  if (!options) {
+    options = {};
+  }
+
+  if (typeof options === 'string') {
+    options = { path: options };
+  }
+
+  if (!options.path) {
+    options.path = '';
+  }
+
+  let manifest = {};
+
+  return through2.obj(function (file, encoding, callback) {
+    if (!file || !file.cmdModuleId || !file.cmdModuleDeps) {
+      return callback();
+    }
+
+    manifest[file.cmdModuleId] = file.cmdModuleDeps;
+    callback();
+  }, function (callback) {
+    if (Object.keys(manifest).length === 0) {
+      return callback();
+    }
+
+    const stream = this;
+
+    vinylFile.read(options.path, options)
+      .then(null, function (err) {
+        if (err.code === 'ENOENT') {
+          return new gutil.File(options);
+        }
+        throw err;
+      }).then(function (manifestFile) {
+        if (!manifestFile.isNull()) {
+          let oldManifest = {};
+
+          try {
+            oldManifest = JSON.parse(manifestFile.contents.toString());
+          } catch (err) {}
+
+          manifest = Object.assign(oldManifest, manifest);
+        }
+
+        manifestFile.contents = Buffer.from(JSON.stringify(sortKeys(manifest), null, '  '));
+        stream.push(manifestFile);
+        callback();
+      }).catch(callback);
+  });
+};
+
+module.exports = plugin;
