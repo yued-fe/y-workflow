@@ -12,7 +12,6 @@ const through2 = require('through2');
  * @param {Function} options.replace 最终修改方法
  *
  * @examples
- *  gulp dest => './dest/static/js'
  *  options = {
  *    base: './dest', // ./a.js => /js/a.js
  *    replace: d => `/static/${d}`, // /js/a.js => /static/js/a.js
@@ -49,7 +48,7 @@ module.exports = (options) => {
     options.replace = d => d;
   }
 
-  const REG_URI = options.keyword instanceof RegExp ? options.keyword : new RegExp(options.keyword + '\\(([\'"]?)([^\'")]+)\\1\\)', 'g'); // eslint-disable-line max-len,prefer-template
+  const REG_URI = options.keyword instanceof RegExp ? options.keyword : new RegExp(options.keyword + '\\(([\'"]?)([^\'")]*)\\1\\)', 'g'); // eslint-disable-line max-len,prefer-template
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
@@ -75,18 +74,12 @@ module.exports = (options) => {
 
     const contents = file.contents.toString('utf-8').replace(REG_URI, (...args) => {
       const matched = args.slice(1, -2);
-      let uri;
+      let uri = matched.pop();
 
-      while ((uri = matched.shift()) !== undefined) { // eslint-disable-line no-cond-assign
-        if (!/^['"]?$/.test(uri)) {
-          if (uri.charAt(0) !== '/') {
-            uri = path.join(dirname, uri).replace(options.base, '');
-          }
-          return options.replace(uri);
-        }
+      if (uri && uri.charAt(0) !== '/') {
+        uri = path.join(dirname, uri).replace(options.base, '');
       }
-
-      this.emit('error', new gutil.PluginError('gulp-urify', 'no uri matched'));
+      return options.replace(uri);
     });
 
     file.contents = Buffer.from(contents);
