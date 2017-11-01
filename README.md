@@ -156,10 +156,3 @@ yWorkflow.run('dev', {
 ### urify lib 配置
 
 * `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
-
-
-### yServer lib 配置
-
-* `hot` 是否启用 [y-server](https://github.com/yued-fe/y-server) 的热加载模式
-* `yServerConfig` [y-server](https://github.com/yued-fe/y-server) 的配置文件路径，默认当前目录下的 `y-server.config.js` 文件
-

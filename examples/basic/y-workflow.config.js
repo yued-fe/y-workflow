@@ -1,53 +1,54 @@
+const yServer = require('y-server');
+
 module.exports = {
   tasks: [
     // dev
     {
       $lib: 'sequence',
       taskName: 'dev',
-      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'html:watch'], 'yServer:dev'],
+      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'html:watch'], 'server:dev'],
     },
 
     // build
     {
       $lib: 'sequence',
       taskName: 'build',
-      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'yServer:pro'],
+      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'server:pro'],
     },
 
     // server
-    {
-      $lib: 'yServer',
-      taskName: 'yServer:dev',
-      yServerConfig: './y-server.config.js',
-      hot: true,
+    (gulp) => {
+      gulp.task('server:dev', () => {
+        yServer.run('./y-server.config.js');
+      })
     },
-    {
-      $lib: 'yServer',
-      taskName: 'yServer:pro',
-      yServerConfig: {
-        port: 8080,
-        plugins: [
-          {
-            $name: 'static',
-            staticPaths: {
-              '/static': './dest/static',
+    (gulp) => {
+      gulp.task('server:pro', () => {
+        yServer({
+          port: 8080,
+          plugins: [
+            {
+              $name: 'static',
+              staticPaths: {
+                '/static': './dest/static',
+              },
             },
-          },
-          {
-            $name: 'ejs',
-            viewDir: './dest/server/views',
-            renderAdapter: (result) => {
-              result.$static = '//127.0.0.1:8080';
-              return result;
+            {
+              $name: 'ejs',
+              viewDir: './dest/server/views',
+              renderAdapter: (result) => {
+                result.$static = '//127.0.0.1:8080';
+                return result;
+              },
             },
-          },
-          (app) => {
-            app.get('/', (req, res) => {
-              res.render('index.html');
-            });
-          },
-        ],
-      },
+            (app) => {
+              app.get('/', (req, res) => {
+                res.render('index.html');
+              });
+            },
+          ],
+        });
+      })
     },
 
     // clean

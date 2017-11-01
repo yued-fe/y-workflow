@@ -30,7 +30,6 @@
     "test:sequence": "gulp --gulpfile ./test/sequence/gulpfile.js",
     "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
     "test:urify": "gulp --gulpfile ./test/urify/gulpfile.js",
-    "test:yServer": "gulp --gulpfile ./test/yServer/gulpfile.js",
     "basic:dev": "node ./bin/y-workflow.js run dev --config ./examples/basic/y-workflow.config.js",
     "basic:build": "node ./bin/y-workflow.js run build --config ./examples/basic/y-workflow.config.js"
   },
@@ -70,12 +69,12 @@
     "gulp.spritesmith": "^6.5.1",
     "run-sequence": "^2.2.0",
     "sort-keys": "^2.0.0",
-    "vinyl-file": "^3.0.0",
-    "y-server": "0.0.7"
+    "vinyl-file": "^3.0.0"
   },
   "devDependencies": {
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "y-server": "0.0.7",
     "y-server-plugin-ejs": "0.0.2",
     "y-server-plugin-static": "0.0.2"
   }

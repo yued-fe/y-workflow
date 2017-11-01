@@ -2,6 +2,7 @@ const { fork } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const gulp = require('gulp');
 const gutil = require('gulp-util');
 
 function yWorkflow(options) {
@@ -23,7 +24,7 @@ function yWorkflow(options) {
 
         require(`./lib/${task.$lib}.js`)(taskOptions);
       } else if (typeof task === 'function') {
-        task();
+        task(gulp);
       }
     });
   }
