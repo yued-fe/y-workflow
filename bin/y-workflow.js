@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-require('colors');
-
 const program = require('commander');
 
 const yWorkflow = require('../index.js');

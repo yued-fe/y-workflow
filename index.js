@@ -5,6 +5,8 @@ const path = require('path');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 
+const gulpBin = path.join(path.dirname(require.resolve('gulp')), 'bin/gulp.js');
+
 function yWorkflow(options) {
   if (!options) {
     options = {};
@@ -36,17 +38,9 @@ yWorkflow.run = function (task, options) {
   const configFileName = path.resolve(options.config || 'y-workflow.config.js');
 
   if (fs.existsSync(configFileName)) {
-    const fileNames = {
-      gulp: path.join(path.dirname(require.resolve('gulp')), 'bin/gulp.js'),
-      gulpfile: __filename,
-      cwd: path.dirname(configFileName),
-      yWorkflowConfig: configFileName,
-    };
-    const args = [fileNames.gulp, task, '--gulpfile', fileNames.gulpfile, '--cwd', fileNames.cwd, '--yWorkflowConfig', fileNames.yWorkflowConfig];
-
-    fork(args[0], args.slice(1));
+    fork(gulpBin, [task, '--gulpfile', __filename, '--cwd', path.dirname(configFileName), '--yWorkflowConfig', configFileName]);
   } else {
-    console.log(`配置文件 '${configFileName}' 未找到`.red); // eslint-disable-line no-console
+    console.log(gutil.colors.gray('[y-workflow]'), gutil.colors.red(`配置文件 '${configFileName}' 未找到`)); // eslint-disable-line no-console
     process.exit(0);
   }
 };

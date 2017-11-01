@@ -1,6 +1,6 @@
 {
   "name": "y-workflow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "yued-fe",
   "license": "MIT",
   "description": "",
@@ -13,25 +13,9 @@
     "y-workflow": "./bin/y-workflow.js"
   },
   "scripts": {
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./*.js bin/** lib/** plugins/** --ext .js",
-    "test:clean": "gulp --gulpfile ./test/clean/gulpfile.js",
-    "test:cmdify": "gulp --gulpfile ./test/cmdify/gulpfile.js",
-    "test:cmdifyReplace": "gulp --gulpfile ./test/cmdifyReplace/gulpfile.js",
-    "test:copy": "gulp --gulpfile ./test/copy/gulpfile.js",
-    "test:eslint": "gulp --gulpfile ./test/eslint/gulpfile.js",
-    "test:fontMin": "gulp --gulpfile ./test/fontMin/gulpfile.js",
-    "test:imgMin": "gulp --gulpfile ./test/imgMin/gulpfile.js",
-    "test:imgSprite": "gulp --gulpfile ./test/imgSprite/gulpfile.js",
-    "test:multiple": "gulp --gulpfile ./test/multiple/gulpfile.js",
-    "test:nunjucks": "gulp --gulpfile ./test/nunjucks/gulpfile.js",
-    "test:rev": "gulp --gulpfile ./test/rev/gulpfile.js",
-    "test:revReplace": "gulp --gulpfile ./test/revReplace/gulpfile.js",
-    "test:sass": "gulp --gulpfile ./test/sass/gulpfile.js",
-    "test:sequence": "gulp --gulpfile ./test/sequence/gulpfile.js",
-    "test:svgSprite": "gulp --gulpfile ./test/svgSprite/gulpfile.js",
-    "test:urify": "gulp --gulpfile ./test/urify/gulpfile.js",
-    "basic:dev": "node ./bin/y-workflow.js run dev --config ./examples/basic/y-workflow.config.js",
-    "basic:build": "node ./bin/y-workflow.js run build --config ./examples/basic/y-workflow.config.js"
+    "tester": "node tester.js",
+    "test": "npm-run-all \"tester -- --{1} {2}\" --",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' *.js bin/** lib/** plugins/** --ext .js"
   },
   "files": [
     "bin/",
@@ -41,7 +25,6 @@
   ],
   "dependencies": {
     "cmd-util": "^0.3.13",
-    "colors": "^1.1.2",
     "commander": "^2.11.0",
     "del": "^3.0.0",
     "eslint": "^4.9.0",
@@ -74,6 +57,7 @@
   "devDependencies": {
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "npm-run-all": "^4.1.1",
     "y-server": "0.0.7",
     "y-server-plugin-ejs": "0.0.2",
     "y-server-plugin-static": "0.0.2"
