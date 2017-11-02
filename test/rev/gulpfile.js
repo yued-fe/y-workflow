@@ -45,17 +45,18 @@ require('../../lib/revReplace.js')({
   manifest: './dest/rev-manifest.json',
 });
 
-require('../../lib/yServer.js')({
-  yServerConfig: {
+gulp.task('server', () => {
+  require('y-server')({
     port: 8080,
     plugins: [
-      require('y-server-plugin-static')({
+      {
+        $name: 'static',
         staticPaths: './dest',
-      }),
+      },
     ],
-  },
+  });
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence('rev:assets', 'rev:css', 'rev:js', 'revReplace:html', 'yServer');
+  runSequence('rev:assets', 'rev:css', 'rev:js', 'revReplace:html', 'server');
 });
