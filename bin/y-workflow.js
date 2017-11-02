@@ -9,7 +9,7 @@ program
 
 program
   .command('run [task]')
-  .description('初始化项目')
+  .description('执行任务')
   .option('-c, --config [config]', '指定 y-workflow.config.js 路径')
   .action(yWorkflow.run);
 
