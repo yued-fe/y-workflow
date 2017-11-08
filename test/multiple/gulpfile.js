@@ -7,7 +7,6 @@ require('../../lib/clean.js')({
 
 require('../../lib/multiple.js')({
   taskName: 'icon:img',
-  srcBase: './src/icon',
   srcDirs: './src/icon/*/',
   srcFiles: '**/*.{png,PNG}',
   destDir: './dest/icon',
@@ -20,7 +19,6 @@ require('../../lib/multiple.js')({
 
 require('../../lib/multiple.js')({
   taskName: 'icon:svg',
-  srcBase: './src/icon',
   srcDirs: './src/icon/*/',
   srcFiles: '**/*.{svg,SVG}',
   destDir: './dest/icon',

@@ -114,7 +114,6 @@ yWorkflow.run('dev', {
 
 * `srcDirs` 多个任务的 `src` 的目录
 * `srcFiles` `src` 目录下需要处理的文件
-* `srcBase` `src` 基础路径，得到每一个子任务的 `name`，然后得到 `{taskName}({name})` 的子任务名，如果 `srcDirs` 是以 `/*/` 结尾的字符串，则默认值为 `srcDirs` 的前半部分
 * `destDir` 处理后存放目录，每一个子任务补上 `name` 得到最终的 `处理后存放目录`
 * `lib` 实际任务 lib
 * `libOptions` lib 的配置，如果为方法，则会传入 `name` 
