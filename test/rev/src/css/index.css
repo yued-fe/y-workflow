@@ -1,6 +1,4 @@
 body {
-  background: url('__uri(../img/index.png)');
-  background: url('__uri(/img/index.png)');
   background: url('/static/img/index.png');
   margin: 0;
 }

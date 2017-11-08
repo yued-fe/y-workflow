@@ -20,10 +20,6 @@ createRevTask({
   dest: './dest/static',
   manifest: './dest/rev-manifest.json',
   revReplace: {},
-  urify: {
-    base: './dest/static',
-    replace: d => `/static${d}`,
-  },
 });
 
 createRevTask({
@@ -32,10 +28,6 @@ createRevTask({
   dest: './dest/static',
   manifest: './dest/rev-manifest.json',
   revReplace: {},
-  urify: {
-    base: './dest/static',
-    replace: d => `/static${d}`,
-  },
 });
 
 require('../../lib/revReplace.js')({
