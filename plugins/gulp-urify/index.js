@@ -30,14 +30,12 @@ module.exports = (options) => {
     options = { replace: options };
   }
 
-  if (!options.base) {
-    options.base = process.env.PWD;
-  } else {
-    options.base = path.resolve(options.base);
-  }
-
   if (!options.keyword) {
     options.keyword = '__uri';
+  }
+
+  if (options.base) {
+    options.base = path.resolve(options.base);
   }
 
   if (options.extensions !== '*' && !Array.isArray(options.extensions)) {
@@ -77,7 +75,7 @@ module.exports = (options) => {
       let uri = matched.pop();
 
       if (uri && uri.charAt(0) !== '/') {
-        uri = path.join(dirname, uri).replace(options.base, '');
+        uri = path.join(dirname, uri).replace(options.base || file.base, '');
       }
       return options.replace(uri);
     });

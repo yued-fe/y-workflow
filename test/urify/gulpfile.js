@@ -10,7 +10,7 @@ require('../../lib/urify.js')({
   dest: './dest/static',
   watch: true,
   urify: {
-    base: './dest/static',
+    // base: './dest/static',
     replace: d => `/static${d}`,
   },
 });
