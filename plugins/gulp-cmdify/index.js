@@ -53,7 +53,9 @@ const plugin = function (options) {
     let astModule;
 
     try {
-      contents = contents.replace(/([a-zA-Z0-9]+.)?define/g, 'define');
+      // 修复 xxx.define 问题
+      contents = contents.replace(/([a-zA-Z0-9]+\.)?define/g, 'define');
+
       // astModule = { id: 'id', dependencies: ['a'], factory: factoryNode }
       astModule = ast.parseFirst(contents);
     } catch (ex) {
