@@ -112,7 +112,7 @@ yWorkflow.run('dev', {
 
 #### multiple lib 配置
 
-* `srcDirs` 多个任务的 `src` 的目录
+* `srcDirs` 多个任务的 `src` 的目录，每一个 `srcDir` 生成一个任务，`srcDir` 相对 `glob base` 得到每一个 task 的 `name`
 * `srcFiles` `src` 目录下需要处理的文件
 * `destDir` 处理后存放目录，每一个子任务补上 `name` 得到最终的 `处理后存放目录`
 * `lib` 实际任务 lib
