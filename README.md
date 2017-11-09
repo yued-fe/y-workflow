@@ -82,6 +82,11 @@ yWorkflow.run('dev', {
 * `aliasPlaceholder` CMD模块别名集合的占位字符串，如 `alias: {/* __cmd_config_alias__ */}` 中的 `/* __cmd_config_alias__ */`
 
 
+#### combo lib 配置
+
+* `combo` [gulp-combo](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-combo/index.js) 的配置
+
+
 #### copy lib 配置
 
 无

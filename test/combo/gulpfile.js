@@ -1,12 +1,14 @@
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 
+const createComboTask = require('../../lib/combo.js');
+
 require('../../lib/clean.js')({
   src: './dest',
 });
 
-require('../../lib/combo.js')({
-  src: './src/**/*.html',
+createComboTask({
+  src: './src/index.html',
   dest: './dest',
   combo: {
     comboDomain: '<%= $domains.static %>',
@@ -29,6 +31,25 @@ require('../../lib/combo.js')({
   },
 });
 
+createComboTask({
+  taskName: 'combo:html',
+  src: './src/full.html',
+  dest: './dest',
+  combo: {
+    startTag: '<html>',
+    endTag: '</html>',
+    comboDomain: '<%= $domains.static %>',
+    getCombedStylesContent: (styles, hrefs) => {
+      return `
+<% if ($env == 'producttion') { %>
+  <link rel="stylesheet" href="<%= $domains.static %>/c/=${hrefs.join(',')}" />
+<% } else { %>
+  ${styles.join('\n  ')}
+<% } %>`;
+    },
+  },
+})
+
 gulp.task('default', ['clean'], () => {
-  runSequence(['combo']);
+  runSequence(['combo', 'combo:html']);
 });

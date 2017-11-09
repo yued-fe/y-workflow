@@ -3,9 +3,7 @@ const path = require('path');
 const gutil = require('gulp-util');
 const through2 = require('through2');
 
-const REG_START = /<!--\s*combo\s*-->/gim;
-const REG_END = /<!--\s*endcombo\s*-->/gim;
-
+const REG_COMMENT = /<!--[\s\S]*?-->/g;
 const REG_SCRIPT = /<script[^>]+?src="([^"]+)"[^>]*><\/script>/gim;
 const REG_STYLE1 = /<link[^>]+?href="([^"]+?)"[^>]+?rel="stylesheet"[^>]*>/gim;
 const REG_STYLE2 = /<link[^>]+?rel="stylesheet"[^>]+?href="([^"]+?)"[^>]*>/gim;
@@ -14,6 +12,7 @@ const comboPlaceholder = '<%%% COMBO_PLACEHOLDER %%%>';
 const arrayify = obj => Array.isArray(obj) ? obj : [obj];
 const domainify = str => str.replace(/^http(s)?:\/\/|\/\//, '').split('/')[0];
 const pathify = str => str.replace(/^http(s)?:\/\/|\/\//, '').replace(/^[^/]+/, '');
+const isComment = str => typeof str !== 'string' || REG_COMMENT.test(str);
 
 function getCombedContent(content, domain, regs, getCombedItems) {
   const items = [];
@@ -24,9 +23,9 @@ function getCombedContent(content, domain, regs, getCombedItems) {
   arrayify(regs).forEach((reg) => {
     content = content.replace(reg, (matched, $1) => {
       // 增加忽略属性避免条件注释或者模板条件判断中的资源被合并
-      // if(matched.match('ignore')) {
-      //     return $;
-      // }
+      if(matched.match('ignore')) {
+          return matched;
+      }
 
       if (domainify($1) !== domain) {
         return matched;
@@ -47,8 +46,24 @@ function getCombedContent(content, domain, regs, getCombedItems) {
   return content.replace(comboPlaceholder, getCombedItems(items, urls));
 }
 
+/**
+ * combo插件
+ * @param {Object} options 配置项
+ * @param {String|RegExp} options.startTag combo块开始标签
+ * @param {String|RegExp} options.endTag combo块结束标签
+ * @param {String} options.comboDomain combo域名
+ * @param {Function} options.getCombedStylesContent style combo 结果生成方法
+ * @param {Function} options.getCombedScriptsContent javascript combo 结果生成方法
+ * @return {DestroyableTransform} 文件流
+ */
 module.exports = function (options) {
-  const { comboDomain, getCombedStylesContent, getCombedScriptsContent } = options;
+  const {
+    startTag = /<!--\s*combo\s*-->/gim,
+    endTag = /<!--\s*endcombo\s*-->/gim,
+    comboDomain,
+    getCombedStylesContent,
+    getCombedScriptsContent,
+  } = options;
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
@@ -74,13 +89,21 @@ module.exports = function (options) {
 
     const blocks = [];
 
-    const sections = contents.split(REG_END);
-    sections.forEach((section) => {
-      const [block, willComboBlock] = section.split(REG_START);
+    const sections = contents.split(endTag);
+    sections.forEach((section, index) => {
+      const [block, willComboBlock] = section.split(startTag);
+
+      if (index > 0 && !isComment(endTag)) {
+        blocks.push(endTag);
+      }
 
       blocks.push(block);
 
       if (willComboBlock) {
+        if (!isComment(startTag)) {
+          blocks.push(startTag);
+        }
+
         let combedContent = willComboBlock;
 
         if (getCombedStylesContent) {

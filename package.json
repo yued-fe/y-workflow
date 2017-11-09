@@ -53,6 +53,7 @@
     "gulp.spritesmith": "^6.5.1",
     "run-sequence": "^2.2.0",
     "sort-keys": "^2.0.0",
+    "through2": "^2.0.3",
     "vinyl-file": "^3.0.0"
   },
   "devDependencies": {
