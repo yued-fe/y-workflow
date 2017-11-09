@@ -6,14 +6,14 @@ module.exports = {
     {
       $lib: 'sequence',
       taskName: 'dev',
-      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'html:watch'], 'server:dev'],
+      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'eslint:watch', 'html:watch'], 'server:dev'],
     },
 
     // build
     {
       $lib: 'sequence',
       taskName: 'build',
-      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'js', 'css:build', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'server:pro'],
+      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'css:build', 'js', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'combo', 'server:pro'],
     },
 
     // server
@@ -38,6 +38,7 @@ module.exports = {
               viewDir: './dest/server/views',
               renderAdapter: (result) => {
                 result.$static = '//127.0.0.1:8080';
+                result.$env = 'demo';
                 return result;
               },
             },
@@ -130,6 +131,14 @@ module.exports = {
       cmdify: 'site',
       manifest: './.cache/cmdify-manifest.json',
     },
+    {
+      $lib: 'eslint',
+      src: './src/@(js)/**/*.js',
+      watch: true,
+      eslint: {
+        useEslintrc: false,
+      },
+    },
 
     // html
     {
@@ -191,6 +200,22 @@ module.exports = {
       depsPlaceholder: '/* __cmd_loader_config_deps__ */',
       cmdKeyword: 'LBF',
       revCmdify: d => d.replace(/^static/, 'site'),
+    },
+    {
+      $lib: 'combo',
+      src: './dest/server/views/**/*.html',
+      dest: './dest/server/views',
+      combo: {
+        comboDomain: '<%= $static %>',
+        getCombedStylesContent: (styles, hrefs) => {
+          return `
+  <% if ($env == 'production') { %>
+    <link rel="stylesheet" href="<%= $static %>/c/=${hrefs.join(',')}" />
+  <% } else { %>
+    ${styles.join('\n    ')}
+  <% } %>`;
+        },
+      },
     },
   ],
 };

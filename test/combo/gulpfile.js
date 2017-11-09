@@ -14,7 +14,7 @@ createComboTask({
     comboDomain: '<%= $domains.static %>',
     getCombedStylesContent: (styles, hrefs) => {
       return `
-<% if ($env == 'producttion') { %>
+<% if ($env == 'production') { %>
   <link rel="stylesheet" href="<%= $domains.static %>/c/=${hrefs.join(',')}" />
 <% } else { %>
   ${styles.join('\n  ')}
@@ -22,7 +22,7 @@ createComboTask({
     },
     getCombedScriptsContent: (scripts, srcs) => {
       return `
-<% if ($env == 'producttion') { %>
+<% if ($env == 'production') { %>
   <script src="<%= $domains.static %>/c/=${srcs.join(',')}"></script>
 <% } else { %>
   ${scripts.join('\n  ')}
@@ -41,7 +41,7 @@ createComboTask({
     comboDomain: '<%= $domains.static %>',
     getCombedStylesContent: (styles, hrefs) => {
       return `
-<% if ($env == 'producttion') { %>
+<% if ($env == 'production') { %>
   <link rel="stylesheet" href="<%= $domains.static %>/c/=${hrefs.join(',')}" />
 <% } else { %>
   ${styles.join('\n  ')}
