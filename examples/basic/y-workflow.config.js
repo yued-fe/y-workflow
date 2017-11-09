@@ -105,38 +105,29 @@ module.exports = {
     {
       $lib: 'sass',
       taskName: 'css:dev',
-      src: './src/css/**/*.scss',
-      dest: './.cache/static/css',
+      src: './src/@(css)/**/*.scss',
+      dest: './.cache/static',
       watch: true,
       sourcemaps: './.map',
-      urify: {
-        base: './.cache/static',
-        replace: d => `/static${d}`,
-      },
+      urify: d => `/static${d}`,
     },
     {
       $lib: 'sass',
       taskName: 'css:build',
-      src: './src/css/**/*.scss',
-      dest: './.cache/static/css',
-      urify: {
-        base: './.cache/static',
-        replace: d => `/static${d}`,
-      },
+      src: './src/@(css)/**/*.scss',
+      dest: './.cache/static',
+      urify: d => `/static${d}`,
     },
 
     // js
     {
       $lib: 'cmdify',
       taskName: 'js',
-      src: './src/js/**/*.js',
-      dest: './.cache/static/js',
+      src: './src/@(js)/**/*.js',
+      dest: './.cache/static',
       watch: true,
-      urify: {
-        base: './.cache/static',
-        replace: d => `site${d}`,
-      },
-      cmdify: 'site/js',
+      urify: d => `site${d}`,
+      cmdify: 'site',
       manifest: './.cache/cmdify-manifest.json',
     },
 
@@ -163,36 +154,32 @@ module.exports = {
     {
       $lib: 'rev',
       taskName: 'rev:assets',
-      src: ['./.cache/static/**/*', '!./.cache/static/**/*+(css|js|html|map|json)'],
-      dest: './dest/static',
+      src: ['./.cache/@(static)/**/*', '!./.cache/static/**/*.{css,js,html,map,json}'],
+      dest: './dest',
       manifest: './dest/rev-manifest.json',
     },
     {
       $lib: 'rev',
       taskName: 'rev:css',
-      src: './.cache/static/**/*.css',
-      dest: './dest/static',
+      src: './.cache/@(static)/**/*.css',
+      dest: './dest',
       manifest: './dest/rev-manifest.json',
       revReplace: {},
     },
     {
       $lib: 'rev',
       taskName: 'rev:js',
-      src: './.cache/static/**/*.js',
-      dest: './dest/static',
+      src: './.cache/@(static)/**/*.js',
+      dest: './dest',
       manifest: './dest/rev-manifest.json',
-      revReplace: {
-        modifyUnreved: d => d.startsWith('js/') ? '__js_loader_alias_instead_rev_replace__' : d,
-      },
+      revReplace: {},
     },
     {
       $lib: 'revReplace',
       src: './.cache/server/views/**/*.html',
       dest: './dest/server/views',
       manifest: './dest/rev-manifest.json',
-      revReplace: {
-        modifyUnreved: d => d.startsWith('js/') ? '__js_loader_alias_instead_rev_replace__' : d,
-      },
+      revReplace: {},
     },
     {
       $lib: 'cmdifyReplace',
@@ -201,7 +188,9 @@ module.exports = {
       cmdifyManifest: './.cache/cmdify-manifest.json',
       revManifest: './dest/rev-manifest.json',
       aliasPlaceholder: '/* __cmd_loader_config_alias__ */',
+      depsPlaceholder: '/* __cmd_loader_config_deps__ */',
       cmdKeyword: 'LBF',
+      revCmdify: d => d.replace(/^static/, 'site'),
     },
   ],
 };
