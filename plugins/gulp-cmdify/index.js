@@ -102,7 +102,7 @@ plugin.manifest = function (options) {
   }
 
   if (!options.path) {
-    options.path = '';
+    options.path = 'cmdify-manifest.json';
   }
 
   let manifest = {};

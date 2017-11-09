@@ -6,15 +6,15 @@ require('../../lib/clean.js')({
 });
 
 require('../../lib/cmdify.js')({
-  src: './src/js/**/*.js',
-  dest: './dest/static/js',
+  src: './src/@(js)/**/*.js',
+  dest: './dest/static',
   watch: true,
   urify: {
-    base: './dest/static', // ./a.js => /js/a.js
+    // base: './dest/static', // ./a.js => /js/a.js
     replace: d => `site${d}`, // /js/a.js => site/js/a.js
   },
-  cmdify: 'site/js',
-  manifest: './dest/static/cmdify-manifest.json',
+  cmdify: 'site',
+  manifest: './dest/cmdify-manifest.json',
 });
 
 gulp.task('default', ['clean'], () => {
