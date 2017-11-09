@@ -11,7 +11,9 @@ require('../../lib/cmdifyReplace.js')({
   cmdifyManifest: './src/cmdify-manifest.json',
   revManifest: './src/rev-manifest.json',
   aliasPlaceholder: '/* __cmd_config_alias__ */',
+  depsPlaceholder: '/* __cmd_config_deps__ */',
   cmdKeyword: 'LBF',
+  revCmdify: d => d.replace(/^static/, 'site'),
 });
 
 gulp.task('default', ['clean'], () => {

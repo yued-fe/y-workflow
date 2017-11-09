@@ -87,7 +87,7 @@ const plugin = function (options) {
 };
 
 /**
- * cmd transport 插件生成 manifest 方法
+ * cmd transport 插件生成 manifest 文件方法，文件格式：{ id: deps }
  * @param {Object|String} options 插件配置
  * @param {String} options.path 生成文件路径名
  * @return {Stream} gulp stream

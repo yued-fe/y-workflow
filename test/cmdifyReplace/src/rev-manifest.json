@@ -1,15 +1,15 @@
 {
-  "css/index.css": "css/index-eb02e6bc03.css",
-  "css/utils.css": "css/utils-18e326161e.css",
-  "icon/img-sprite.css": "icon/img-sprite-cf10f088b1.css",
-  "icon/img-sprite.png": "icon/img-sprite-13d6e37206.png",
-  "icon/img-sprite@2x.png": "icon/img-sprite@2x-b4b04e5a91.png",
-  "icon/svg-sprite.js": "icon/svg-sprite-650245d86f.js",
-  "img/bg-1.png": "img/bg-1-e841e783db.png",
-  "img/bg-2.png": "img/bg-2-01ba48a454.png",
-  "img/bg-3.jpg": "img/bg-3-7b0c75335b.jpg",
-  "js/a.js": "js/a-7092fac72f.js",
-  "js/b.js": "js/b-eea83a20a7.js",
-  "js/c.js": "js/c-556b474a30.js",
-  "js/index.js": "js/index-1c38169f57.js"
+  "static/css/index.css": "static/css/index-eb02e6bc03.css",
+  "static/css/utils.css": "static/css/utils-18e326161e.css",
+  "static/icon/img-sprite.css": "static/icon/img-sprite-cf10f088b1.css",
+  "static/icon/img-sprite.png": "static/icon/img-sprite-13d6e37206.png",
+  "static/icon/img-sprite@2x.png": "static/icon/img-sprite@2x-b4b04e5a91.png",
+  "static/icon/svg-sprite.js": "static/icon/svg-sprite-650245d86f.js",
+  "static/img/bg-1.png": "static/img/bg-1-e841e783db.png",
+  "static/img/bg-2.png": "static/img/bg-2-01ba48a454.png",
+  "static/img/bg-3.jpg": "static/img/bg-3-7b0c75335b.jpg",
+  "static/js/a.js": "static/js/a-7092fac72f.js",
+  "static/js/b.js": "static/js/b-eea83a20a7.js",
+  "static/js/c.js": "static/js/c-556b474a30.js",
+  "static/js/index.js": "static/js/index-1c38169f57.js"
 }
