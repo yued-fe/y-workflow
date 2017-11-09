@@ -6,9 +6,6 @@ const sortKeys = require('sort-keys');
 const through2 = require('through2');
 const vinylFile = require('vinyl-file');
 
-const REG_DEFINE_ONLY_FACTORY = /define\(\s*([^[])/g;
-const REG_DEFINE_WITH_DEPS = /define\(\s*(\[[^\]]*\]\s*,\s*)/g;
-
 /**
  * cmd transport 插件
  * @param {Object|String} options 插件配置
@@ -53,11 +50,10 @@ const plugin = function (options) {
     let astModule;
 
     try {
-      // 修复 xxx.define 问题
+      // 修复 xxx.define 不会被 ast.parse 解析成模块问题
       contents = contents.replace(/([a-zA-Z0-9]+\.)?define/g, 'define');
 
-      // astModule = { id: 'id', dependencies: ['a'], factory: factoryNode }
-      astModule = ast.parseFirst(contents);
+      astModule = ast.parseFirst(contents); // { id: 'id', dependencies: ['a'], dependencyNode, factory }
     } catch (ex) {
       this.emit('error', new gutil.PluginError('gulp-cmdify', 'parse file "' + gutil.colors.red(file.path) + '" failed')); // eslint-disable-line max-len,prefer-template
       return callback();
@@ -71,11 +67,14 @@ const plugin = function (options) {
         astModule.id = moduleId;
         const newAstModule = ast.modify(contents, astModule);
         contents = Buffer.from(newAstModule.print_to_string({ beautify: true }));
-      } else if (REG_DEFINE_ONLY_FACTORY.test(contents)) {
-        contents = contents.replace(REG_DEFINE_ONLY_FACTORY, `define("${moduleId}",${JSON.stringify(moduleDeps)},$1`);
-      } else if (REG_DEFINE_WITH_DEPS.test(contents)) {
-        contents = contents.replace(REG_DEFINE_WITH_DEPS, `define("${moduleId}",$1`);
+      } else if (!astModule.id && !astModule.dependencyNode) { // 只有 factory
+        contents = contents.replace(/define\(\s*/g, `define("${moduleId}",${JSON.stringify(moduleDeps)},`);
+      } else if (!astModule.id) { // 有 id
+        contents = contents.replace(/define\(\s*/g, `define("${moduleId}",`);
+      } else if (!astModule.dependencyNode) { // 有 deps
+        contents = contents.replace(/define\(\s*(['"])[^'"]+\1/g, `define("${moduleId}",${JSON.stringify(moduleDeps)}`);
       }
+
       file.cmdModuleId = moduleId;
       file.cmdModuleDeps = moduleDeps;
       file.contents = Buffer.from(contents);
