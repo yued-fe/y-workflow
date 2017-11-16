@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "HuXiaoBo_KuHei";
+    src: url("KUHEI.eot"); /* IE9 */
+    src: url("KUHEI.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("KUHEI.woff") format("woff"), /* chrome, firefox */
+    url("KUHEI.ttf") format("truetype"), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+    url("KUHEI.svg#HuXiaoBo_KuHei") format("svg"); /* iOS 4.1- */
+    font-style: normal;
+    font-weight: normal;
+}
+
+

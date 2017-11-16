@@ -6,14 +6,14 @@ module.exports = {
     {
       $lib: 'sequence',
       taskName: 'dev',
-      tasks: [['clean:cache'], ['fontMin:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'eslint:watch', 'html:watch'], 'server:dev'],
+      tasks: [['fontMin:watch'], ['font:watch', 'imgMin:watch', 'imgSprite:watch', 'svgSprite:watch', 'css:dev:watch', 'js:watch', 'eslint:watch', 'html:watch'], 'server:dev'],
     },
 
     // build
     {
       $lib: 'sequence',
       taskName: 'build',
-      tasks: [['clean:cache', 'clean:dest'], ['fontMin', 'imgMin', 'imgSprite', 'svgSprite', 'css:build', 'js', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'combo', 'server:pro'],
+      tasks: [['clean:cache', 'clean:dest', 'fontMin:watch'], ['font', 'imgMin', 'imgSprite', 'svgSprite', 'css:build', 'js', 'html'], 'rev:assets', 'rev:css', 'rev:js', 'revReplace', 'cmdifyReplace', 'combo', 'server:pro'],
     },
 
     // server
@@ -68,22 +68,29 @@ module.exports = {
     {
       $lib: 'multiple',
       taskName: 'fontMin',
-      srcDirs: './src/font/*/',
+      srcDirs: './src/font/.src/*/',
       srcFiles: '*.ttf',
-      destDir: './.cache/static/font',
+      destDir: './src/font',
       watch: true,
       lib: 'fontMin',
       libOptions: (name) => ({
-        textFile: `./src/font/${name}/words.txt`,
-        urify: './.cache',
+        textFile: `./src/font/.src/${name}/words.txt`,
       }),
+    },
+    {
+      $lib: 'cssUrlAbsify',
+      taskName: 'font',
+      src: './src/@(font)/**/*',
+      dest: './.cache/static',
+      watch: true,
+      cssUrlAbsify: './.cache',
     },
 
     // 图片
     {
       $lib: 'imgMin',
-      src: './src/img/**/*',
-      dest: './.cache/static/img',
+      src: './src/@(img)/**/*',
+      dest: './.cache/static',
       watch: true,
     },
 
@@ -93,7 +100,7 @@ module.exports = {
       src: './src/icon/**/*.png',
       dest: './.cache/static/icon',
       watch: true,
-      urify: './.cache',
+      cssUrlAbsify: './.cache',
     },
     {
       $lib: 'svgSprite',
