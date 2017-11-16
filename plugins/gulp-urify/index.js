@@ -74,10 +74,14 @@ module.exports = (options) => {
       const matched = args.slice(1, -2);
       let uri = matched.pop();
 
+      if (/^https?:\/\/|data:|about:/.test(uri)) {
+        return uri;
+      }
+
       if (uri && uri.charAt(0) !== '/') {
         uri = path.join(dirname, uri).replace(options.base || file.base, '');
       }
-      return options.replace(uri);
+      return options.replace(uri).replace(/\\/g, '/');
     });
 
     file.contents = Buffer.from(contents);
