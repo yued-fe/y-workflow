@@ -101,7 +101,6 @@ yWorkflow.run('dev', {
 
 * `fontMin` 传给 [gulp-fontmin](https://github.com/ecomfe/gulp-fontmin) 的配置
 * `textFile` 传给 [fontmin.text](https://github.com/ecomfe/gulp-fontmin#api) 文件路径
-* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，如果传入 string，则会有默认值 `{ base: urify, keyword: 'url', replace: d => 'url("' + d + '")' }`
 
 
 #### imgMin lib 配置
