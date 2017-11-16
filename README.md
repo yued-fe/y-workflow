@@ -76,10 +76,7 @@ yWorkflow.run('dev', {
 
 #### cmdifyReplace lib 配置
 
-* `cmdifyManifest` [gulp-cmdify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify/index.js) 生成的 `manifest` 文件路径
-* `revManifest` [gulp-rev](https://github.com/sindresorhus/gulp-rev) 生成的 `manifest` 文件路径
-* `cmdKeyword` CMD规范实现类库关键字
-* `aliasPlaceholder` CMD模块别名集合的占位字符串，如 `alias: {/* __cmd_config_alias__ */}` 中的 `/* __cmd_config_alias__ */`
+* `cmdifyReplace` [gulp-cmdify-replace](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-cmdify-replace/index.js) 的配置
 
 
 #### combo lib 配置

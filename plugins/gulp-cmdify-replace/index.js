@@ -1,7 +1,16 @@
+const fs = require('fs');
 const path = require('path');
 
 const gutil = require('gulp-util');
 const through2 = require('through2');
+
+const loadManifest = (manifest) => {
+  manifest = path.resolve(manifest);
+  if (fs.existsSync(manifest)) {
+    return require(manifest);
+  }
+  return {};
+};
 
 /**
  * cmd 配置替换 gulp 插件
@@ -16,25 +25,28 @@ module.exports = (options) => {
   const {
     cmdifyManifest,
     revManifest,
-    aliasPlaceholder,
-    depsPlaceholder,
+    aliasPlaceholder = '/* cmdify_alias_placeholder */',
+    depsPlaceholder = '/* cmdify_deps_placeholder */',
     cmdKeyword,
     revCmdify,
   } = options;
+
+  const cmdifyManifestData = loadManifest(cmdifyManifest);
+  const revManifestData = loadManifest(revManifest);
 
   // 先获取所有模块的 alias 和 deps
   const allAliasObj = {};
   const allDepsObj = {};
 
-  Object.keys(revManifest).forEach((d) => {
+  Object.keys(revManifestData).forEach((d) => {
     // 过滤掉非 js 文件
     if (path.extname(d) === '.js') {
-      allAliasObj[revCmdify(d)] = revCmdify(revManifest[d]);
+      allAliasObj[revCmdify(d)] = revCmdify(revManifestData[d]);
     }
   });
 
-  Object.keys(cmdifyManifest).forEach((moduleId) => {
-    const moduleDeps = cmdifyManifest[moduleId];
+  Object.keys(cmdifyManifestData).forEach((moduleId) => {
+    const moduleDeps = cmdifyManifestData[moduleId];
     if (moduleDeps.length) {
       allDepsObj[moduleId] = moduleDeps;
     }
@@ -77,6 +89,11 @@ module.exports = (options) => {
     }
 
     let contents = file.contents.toString('utf-8');
+
+    if (contents.indexOf(aliasPlaceholder) === -1 || contents.indexOf(depsPlaceholder) === -1) {
+      this.push(file);
+      return callback();
+    }
 
     // 获取所有入口模块(包含所依赖模块)
     const moduleIds = [];
