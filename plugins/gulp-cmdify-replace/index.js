@@ -28,7 +28,7 @@ module.exports = (options) => {
     aliasPlaceholder = '/* cmdify_alias_placeholder */',
     depsPlaceholder = '/* cmdify_deps_placeholder */',
     cmdKeyword,
-    revCmdify,
+    revCmdify = d => d,
   } = options;
 
   const cmdifyManifestData = loadManifest(cmdifyManifest);
