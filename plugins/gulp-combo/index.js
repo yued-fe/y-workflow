@@ -9,7 +9,7 @@ const REG_STYLE1 = /<link[^>]+?href="([^"]+?)"[^>]+?rel="stylesheet"[^>]*>/gim;
 const REG_STYLE2 = /<link[^>]+?rel="stylesheet"[^>]+?href="([^"]+?)"[^>]*>/gim;
 
 const comboPlaceholder = '<%%% COMBO_PLACEHOLDER %%%>';
-const arrayify = obj => Array.isArray(obj) ? obj : [obj];
+const arrayify = obj => (Array.isArray(obj) ? obj : [obj]);
 const domainify = str => str.replace(/^http(s)?:\/\/|\/\//, '').split('/')[0];
 const pathify = str => str.replace(/^http(s)?:\/\/|\/\//, '').replace(/^[^/]+/, '');
 const isComment = str => typeof str !== 'string' || REG_COMMENT.test(str);
@@ -23,8 +23,8 @@ function getCombedContent(content, domain, regs, getCombedItems) {
   arrayify(regs).forEach((reg) => {
     content = content.replace(reg, (matched, $1) => {
       // 增加忽略属性避免条件注释或者模板条件判断中的资源被合并
-      if(matched.match('ignore')) {
-          return matched;
+      if (matched.match('ignore')) {
+        return matched;
       }
 
       if (domainify($1) !== domain) {
@@ -107,11 +107,11 @@ module.exports = function (options) {
         let combedContent = willComboBlock;
 
         if (getCombedStylesContent) {
-          combedContent = getCombedContent(combedContent, comboDomain, [REG_STYLE1, REG_STYLE2], getCombedStylesContent);
+          combedContent = getCombedContent(combedContent, comboDomain, [REG_STYLE1, REG_STYLE2], getCombedStylesContent); // eslint-disable-line max-len
         }
 
         if (getCombedScriptsContent) {
-          combedContent = getCombedContent(combedContent, comboDomain, [REG_SCRIPT], getCombedScriptsContent);
+          combedContent = getCombedContent(combedContent, comboDomain, [REG_SCRIPT], getCombedScriptsContent); // eslint-disable-line max-len
         }
 
         blocks.push(combedContent);

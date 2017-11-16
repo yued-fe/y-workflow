@@ -53,7 +53,8 @@ const plugin = function (options) {
       // 修复 xxx.define 不会被 ast.parse 解析成模块问题
       contents = contents.replace(/([a-zA-Z0-9]+\.)?define/g, 'define');
 
-      astModule = ast.parseFirst(contents); // { id: 'id', dependencies: ['a'], dependencyNode, factory }
+      // 格式: { id: 'id', dependencies: ['a'], dependencyNode, factory }
+      astModule = ast.parseFirst(contents);
     } catch (ex) {
       this.emit('error', new gutil.PluginError('gulp-cmdify', 'parse file "' + gutil.colors.red(file.path) + '" failed')); // eslint-disable-line max-len,prefer-template
       return callback();
