@@ -58,10 +58,9 @@ yWorkflow.run('dev', {
 
 * `taskName` 任务名称，默认为 `lib` 名字
 * `src` 待处理文件
-* `srcOptions` 传给 [gulp.src](https://github.com/gulpjs/gulp/blob/master/docs/API.md) 的配置
 * `dest` 处理后存放目录
-* `taskHandler` 任务执行方法，原有的逻辑不满足要求的时候覆盖用的
 * `watch` 是否监听，启用监听之后会额外增加 `{taskName}:watch` 任务，会先执行一次 `{taskName}` 任务，然后监听 `{src}` 再执行 `{taskName}` 任务
+* `taskHandler` 任务执行方法，原有的逻辑不满足要求的时候覆盖用的
 
 #### clean lib 配置
 
@@ -86,7 +85,7 @@ yWorkflow.run('dev', {
 
 #### copy lib 配置
 
-无
+* `copyOptions` 传给 [gulp.src](https://github.com/gulpjs/gulp/blob/master/docs/API.md) 的配置
 
 #### eslint lib 配置
 

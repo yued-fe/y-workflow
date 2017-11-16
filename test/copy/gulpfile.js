@@ -7,9 +7,9 @@ require('../../lib/clean.js')({
 
 require('../../lib/copy.js')({
   src: './src/**/*',
-  srcOptions: { dot: true },
   dest: './dest',
   watch: true,
+  copyOptions: { dot: true },
 });
 
 gulp.task('default', ['clean'], () => {
