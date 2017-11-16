@@ -1,6 +1,6 @@
 {
   "name": "y-workflow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "yued-fe",
   "license": "MIT",
   "description": "",
@@ -62,8 +62,8 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "npm-run-all": "^4.1.1",
-    "y-server": "0.0.8",
-    "y-server-plugin-ejs": "0.0.2",
-    "y-server-plugin-static": "0.0.3"
+    "y-server": "~0.0.8",
+    "y-server-plugin-ejs": "~0.0.2",
+    "y-server-plugin-static": "~0.0.3"
   }
 }
