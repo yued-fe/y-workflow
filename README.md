@@ -62,9 +62,11 @@ yWorkflow.run('dev', {
 * `watch` 是否监听，启用监听之后会额外增加 `{taskName}:watch` 任务，会先执行一次 `{taskName}` 任务，然后监听 `{src}` 再执行 `{taskName}` 任务
 * `taskHandler` 任务执行方法，原有的逻辑不满足要求的时候覆盖用的
 
+
 #### clean lib 配置
 
 * `delOptions` 传给 [del](https://github.com/sindresorhus/del) 的配置
+
 
 #### cmdify lib 配置
 
@@ -87,6 +89,12 @@ yWorkflow.run('dev', {
 
 * `copyOptions` 传给 [gulp.src](https://github.com/gulpjs/gulp/blob/master/docs/API.md) 的配置
 
+
+#### cssUrlAbsify lib 配置
+
+* `cssUrlAbsify` [gulp-css-url-absify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-css-url-absify/index.js) 的配置
+
+
 #### eslint lib 配置
 
 * `eslint` 传给 [gulp-eslint](https://github.com/adametry/gulp-eslint) 的配置
@@ -108,7 +116,7 @@ yWorkflow.run('dev', {
 
 * `responsive` 传给 [gulp-responsive](https://github.com/mahnunchik/gulp-responsive) 的配置，默认值为 `{'**/*': [{min: true, width: '50%'}, {min: true, rename: { suffix: '@2x' }}]}`
 * `spritesmith` 传给 [gulp.spritesmith](https://github.com/twolfson/gulp.spritesmith) 的配置，默认值为 `{ imgName: 'img-sprite.png', cssName: 'img-sprite.css', padding: 4, retinaSrcFilter: '**/*@2x.png', retinaImgName: 'img-sprite@2x.png' }`
-* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，如果传入 string，则会有默认值 `{ base: urify, keyword: 'url', replace: d => 'url("' + d + '")' }`
+* `cssUrlAbsify` [gulp-css-url-absify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-css-url-absify/index.js) 的配置
 
 
 #### multiple lib 配置

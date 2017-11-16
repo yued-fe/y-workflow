@@ -1,6 +1,6 @@
 {
   "name": "y-workflow",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "yued-fe",
   "license": "MIT",
   "description": "",
@@ -51,6 +51,8 @@
     "gulp-svgstore": "^6.1.0",
     "gulp-util": "^3.0.8",
     "gulp.spritesmith": "^6.5.1",
+    "rework": "^1.0.1",
+    "rework-plugin-url": "^1.1.0",
     "run-sequence": "^2.2.0",
     "sort-keys": "^2.0.0",
     "through2": "^2.0.3",

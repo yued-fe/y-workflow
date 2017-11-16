@@ -5,13 +5,13 @@ require('../../lib/clean.js')({
   src: './dest',
 });
 
-require('../../lib/imgSprite.js')({
-  src: './src/*.png',
-  dest: './dest/icon',
+require('../../lib/cssUrlAbsify.js')({
+  src: './src/**/*.css',
+  dest: './dest',
   watch: true,
   cssUrlAbsify: './dest',
 });
 
 gulp.task('default', ['clean'], () => {
-  runSequence(['imgSprite:watch']);
+  runSequence(['cssUrlAbsify:watch']);
 });
