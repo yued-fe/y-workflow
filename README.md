@@ -146,6 +146,7 @@ yWorkflow.run('dev', {
 
 * `manifest` [gulp-rev](https://github.com/sindresorhus/gulp-rev) 的 `manifest` 文件路径，默认值为 `dest` 加上 `rev-manifest.json`
 * `revReplace` [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) 配置，如果传则表示 `rev` 之前会先进行一次 `revReplace`
+* `revAll` [gulp-rev-all](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-rev-all/index.js) 配置，如果传值就表示要分析依赖
 
 
 #### revReplace lib 配置

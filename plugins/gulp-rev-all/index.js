@@ -7,7 +7,7 @@ const through2 = require('through2');
 const revHash = str => crypto.createHash('md5').update(str).digest('hex').slice(0, 10);
 const relPath = (base, filePath) => filePath.slice(base.length).replace(/\\/g, '/').replace(/^\//, '');
 /**
- * 以依赖分析的 rev 插件
+ * 有依赖分析的 rev 插件
  */
 module.exports = function () {
   const files = [];
