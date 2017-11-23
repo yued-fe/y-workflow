@@ -46,8 +46,13 @@ module.exports = (options) => {
   });
 
   Object.keys(cmdifyManifestData).forEach((moduleId) => {
-    const moduleDeps = cmdifyManifestData[moduleId];
+    let moduleDeps = cmdifyManifestData[moduleId];
     if (moduleDeps.length) {
+      if (!aliasPlaceholder) {
+        // 如果没有别名占位，则表示模块ID都是真实路径，所以依赖也需要进行转换
+        moduleId = allAliasObj[moduleId] || moduleId;
+        moduleDeps = moduleDeps.map(d => allAliasObj[d] || d);
+      }
       allDepsObj[moduleId] = moduleDeps;
     }
   });
