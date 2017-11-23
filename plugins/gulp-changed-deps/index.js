@@ -10,6 +10,9 @@ const REG_SCSS_DEPS = /@import\s*["']([^"']+)["'];?/g;
 const REG_NUNJUCKS_COMMENTS = /{#[\s\S]*?#}/g;
 const REG_NUNJUCKS_DEPS = /{%\s*(?:extends|import|include)\s*["']([^"']+)["'][^%]*%}/g;
 
+const REG_EJS_COMMENTS = /<%#[\s\S]*?%>/g;
+const REG_EJS_DEPS = /<%\s*include\s+(\S+)\s*%>|<%-\s*include\(\s*["']([^"']+)["'][^%]*%>/g;
+
 const allGetContentsDeps = {
   // scss文件处理
   scss: (contents) => {
@@ -35,6 +38,21 @@ const allGetContentsDeps = {
     /* eslint-disable no-cond-assign */
     while ((matched = REG_NUNJUCKS_DEPS.exec(contents)) !== null) {
       deps.push(matched[1]);
+    }
+
+    return deps;
+  },
+
+  // ejs文件处理
+  ejs: (contents) => {
+    contents = contents.replace(REG_EJS_COMMENTS, ''); // 移除注释
+
+    const deps = [];
+    let matched;
+
+    /* eslint-disable no-cond-assign */
+    while ((matched = REG_EJS_DEPS.exec(contents)) !== null) {
+      deps.push(matched[1] || matched[2]);
     }
 
     return deps;

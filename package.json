@@ -27,6 +27,7 @@
     "cmd-util": "^0.3.13",
     "commander": "^2.11.0",
     "del": "^3.0.0",
+    "ejs": "^2.5.7",
     "eslint": "^4.9.0",
     "eslint-friendly-formatter": "^3.0.0",
     "glob": "^7.1.2",

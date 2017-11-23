@@ -95,6 +95,13 @@ yWorkflow.run('dev', {
 * `cssUrlAbsify` [gulp-css-url-absify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-css-url-absify/index.js) 的配置
 
 
+#### ejs lib 配置
+
+* `changedDeps` 传给 [gulp-changed-deps](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-changed-deps/index.js) 的配置，默认值为 `{ syntax: 'ejs' }`
+* `ejs` 传给 [gulp-ejs](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-ejs/index.js) 的配置
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，可以通过数组形式传多个
+
+
 #### eslint lib 配置
 
 * `eslint` 传给 [gulp-eslint](https://github.com/adametry/gulp-eslint) 的配置
@@ -132,7 +139,7 @@ yWorkflow.run('dev', {
 
 * `changedDeps` 传给 [gulp-changed-deps](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-changed-deps/index.js) 的配置，默认值为 `{ syntax: 'nunjucks', base: true }`
 * `nunjucks` 传给 [gulp-nunjucks](https://github.com/sindresorhus/gulp-nunjucks) 的配置
-* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置
+* `urify` 传给 [gulp-urify](https://github.com/yued-fe/y-workflow/blob/master/plugins/gulp-urify/index.js) 的配置，可以通过数组形式传多个
 
 
 #### rev lib 配置
