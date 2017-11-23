@@ -51,12 +51,12 @@ module.exports = function () {
     });
 
     // 排序提高效率
-    files.sort((file1, file2) => file1.depFilesCount > file2.depFilesCount ? 1 : -1);
+    files.sort((file1, file2) => (file1.depFilesCount > file2.depFilesCount ? 1 : -1));
 
-    function doRev(files) {
+    function doRev(willRevFiles) {
       let hasDepRelationship = false;
 
-      files.forEach((file) => {
+      willRevFiles.forEach((file) => {
         // 已经被 rev
         if (file.revHash) {
           return;
@@ -72,7 +72,7 @@ module.exports = function () {
         file.revOrigPath = file.path;
         file.revOrigBase = file.base;
         file.revHash = revHash(file.contents.toString('utf-8'));
-        file.path = gutil.replaceExtension(file.path, '-' + file.revHash + path.extname(file.path));
+        file.path = gutil.replaceExtension(file.path, `-${file.revHash}${path.extname(file.path)}`);
 
         const revisionedFile = relPath(file.base, file.path);
         const originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
@@ -89,7 +89,7 @@ module.exports = function () {
       });
 
       if (hasDepRelationship) {
-        doRev(files);
+        doRev(willRevFiles);
       }
     }
 
