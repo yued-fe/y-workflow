@@ -25,8 +25,8 @@ module.exports = (options) => {
   const {
     cmdifyManifest,
     revManifest,
-    aliasPlaceholder = '/* cmdify_alias_placeholder */',
-    depsPlaceholder = '/* cmdify_deps_placeholder */',
+    aliasPlaceholder,
+    depsPlaceholder,
     cmdKeyword,
     revCmdify = d => d,
   } = options;
@@ -90,7 +90,7 @@ module.exports = (options) => {
 
     let contents = file.contents.toString('utf-8');
 
-    if (contents.indexOf(aliasPlaceholder) === -1 || contents.indexOf(depsPlaceholder) === -1) {
+    if (contents.indexOf(aliasPlaceholder) === -1 && contents.indexOf(depsPlaceholder) === -1) {
       this.push(file);
       return callback();
     }
@@ -126,8 +126,13 @@ module.exports = (options) => {
       depsObj = allDepsObj;
     }
 
-    contents = contents.replace(aliasPlaceholder, JSON.stringify(aliasObj).slice(1, -1));
-    contents = contents.replace(depsPlaceholder, JSON.stringify(depsObj).slice(1, -1));
+    if (aliasPlaceholder) {
+      contents = contents.replace(aliasPlaceholder, JSON.stringify(aliasObj).slice(1, -1));
+    }
+
+    if (depsPlaceholder) {
+      contents = contents.replace(depsPlaceholder, JSON.stringify(depsObj).slice(1, -1));
+    }
 
     file.contents = Buffer.from(contents);
     this.push(file);
