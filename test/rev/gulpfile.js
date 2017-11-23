@@ -26,6 +26,7 @@ createRevTask({
   taskName: 'rev:js',
   src: './src/**/*.js',
   dest: './dest/static',
+  revAll: {},
   manifest: './dest/rev-manifest.json',
   revReplace: {},
 });
