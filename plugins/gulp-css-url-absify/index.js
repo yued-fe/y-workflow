@@ -34,12 +34,10 @@ module.exports = (options) => {
     }
 
     if (file.isStream()) {
-      this.push(file);
       return callback();
     }
 
     if (path.extname(file.path) !== '.css') {
-      this.push(file);
       return callback();
     }
 
