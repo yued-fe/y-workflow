@@ -94,7 +94,7 @@ function getLastModified(fileObj) {
  */
 module.exports = function (dest, options) {
   if (!dest) {
-    throw new gutil.PluginError('gulp-being-changed', '`dest` required');
+    throw new gutil.PluginError('gulp-changed-deps', '`dest` required');
   }
 
   if (typeof dest !== 'function') {
@@ -151,7 +151,7 @@ module.exports = function (dest, options) {
   // 文件对象组装
   function transform(file, encoding, callback) {
     if (!file) {
-      this.emit('error', new gutil.PluginError('gulp-changed-deps', 'files can not be empty'));
+      this.emit('error', new gutil.PluginError('gulp-changed-deps', 'File can not be empty'));
       return callback();
     }
 
@@ -160,7 +160,7 @@ module.exports = function (dest, options) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-changed-deps', 'streaming not supported'));
+      this.emit('error', new gutil.PluginError('gulp-changed-deps', 'Streaming not supported'));
       return callback();
     }
 

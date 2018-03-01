@@ -67,7 +67,7 @@ module.exports = function (options) {
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
-      this.emit('error', new gutil.PluginError('gulp-cmdify', 'files can not be empty'));
+      this.emit('error', new gutil.PluginError('gulp-combo', 'File can not be empty'));
       return callback();
     }
 
@@ -76,7 +76,7 @@ module.exports = function (options) {
     }
 
     if (file.isStream()) {
-      this.push(file);
+      this.emit('error', new gutil.PluginError('gulp-combo', 'Streaming not supported'));
       return callback();
     }
 

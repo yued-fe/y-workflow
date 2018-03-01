@@ -50,7 +50,7 @@ module.exports = (options) => {
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
-      this.emit('error', new gutil.PluginError('gulp-urify', 'files can not be empty'));
+      this.emit('error', new gutil.PluginError('gulp-urify', 'File can not be empty'));
       return callback();
     }
 
@@ -59,7 +59,7 @@ module.exports = (options) => {
     }
 
     if (file.isStream()) {
-      this.push(file);
+      this.emit('error', new gutil.PluginError('gulp-urify', 'Streaming not supported'));
       return callback();
     }
 

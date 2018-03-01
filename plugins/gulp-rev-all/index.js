@@ -14,7 +14,7 @@ module.exports = function () {
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
-      this.emit('error', new gutil.PluginError('gulp-ejs', 'files can not be empty'));
+      this.emit('error', new gutil.PluginError('gulp-rev-all', 'File can not be empty'));
       return callback();
     }
 
@@ -23,7 +23,7 @@ module.exports = function () {
     }
 
     if (file.isStream()) {
-      this.push(file);
+      this.emit('error', new gutil.PluginError('gulp-rev-all', 'Streaming not supported'));
       return callback();
     }
 

@@ -25,7 +25,7 @@ module.exports = (options) => {
 
   return through2.obj(function (file, encoding, callback) {
     if (!file) {
-      this.emit('error', new gutil.PluginError('gulp-svg-jsify', 'files can not be empty'));
+      this.emit('error', new gutil.PluginError('gulp-css-url-absify', 'File can not be empty'));
       return callback();
     }
 
@@ -34,6 +34,7 @@ module.exports = (options) => {
     }
 
     if (file.isStream()) {
+      // this.emit('error', new gutil.PluginError('gulp-css-url-absify', 'Streaming not supported'));
       return callback();
     }
 
